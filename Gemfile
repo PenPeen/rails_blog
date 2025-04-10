@@ -12,7 +12,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
-gem 'active_model_serializers', '~> 0.10.0'
+gem 'kaminari'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
