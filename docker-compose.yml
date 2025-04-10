@@ -1,0 +1,24 @@
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      TZ: "Asia/Tokyo"
+      MYSQL_DATABASE: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./tmp/db:/var/lib/mysql
+
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && rails server -b 0.0.0.0"
+    # pry-railsのための設定
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/myapp
+    ports:
+      - "5001:3000"
+    depends_on:
+      - db
