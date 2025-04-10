@@ -29,6 +29,6 @@ class Post < ApplicationRecord
 
   scope :by_recent, -> { order(created_at: :desc) }
   scope :all_posts, -> { by_recent }
-  scope :all_published_posts, -> { published.by_recent }  # 特定ユーザーの公開済み投稿を作成日時の降順で取得
+  scope :all_published_posts, -> { published.by_recent }
   scope :publish_posts_for_user, ->(user_id) { where(user_id: user_id).published.by_recent }
 end
