@@ -22,6 +22,8 @@
 class Post < ApplicationRecord
   belongs_to :user
 
+  has_one_attached :thumbnail
+
   validates :title, :content, presence: true
 
   scope :published, -> { where(published: true) }
@@ -31,4 +33,17 @@ class Post < ApplicationRecord
   scope :all_posts, -> { by_recent }
   scope :all_published_posts, -> { published.by_recent }
   scope :publish_posts_for_user, ->(user_id) { where(user_id:).published.by_recent }
+
+  def thumbnail_url
+    return nil unless thumbnail.attached?
+
+    if Rails.env.production?
+      thumbnail.url
+    else
+      Rails.application.routes.url_helpers.rails_blob_url(
+        thumbnail,
+        host: Rails.application.routes.default_url_options[:host]
+      )
+    end
+  end
 end

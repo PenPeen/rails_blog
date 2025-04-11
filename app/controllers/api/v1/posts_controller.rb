@@ -12,7 +12,7 @@ module Api
           end
 
         paginated_posts = posts.page(current_page).per(PER_PAGE)
-        render json: paginated_posts
+        render json: paginated_posts.as_json(methods: [:thumbnail_url])
       end
 
       private
