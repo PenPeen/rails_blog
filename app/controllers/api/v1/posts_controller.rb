@@ -4,12 +4,7 @@ module Api
       PER_PAGE = 10
 
       def index
-        posts =
-          if params[:user_id]
-            Post.publish_posts_for_user(params[:user_id])
-          else
-            Post.all_published_posts
-          end
+        posts = Post.all_published_posts
 
         paginated_posts = posts.page(current_page).per(PER_PAGE)
         render json: paginated_posts.as_json(methods: [:thumbnail_url])
