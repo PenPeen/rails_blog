@@ -1,9 +1,7 @@
 module Api
   class ApplicationController < ActionController::API
-    unless Rails.env.test? || Rails.env.development?
-      rescue_from StandardError, with: :render_server_error
-      rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
-    end
+    rescue_from StandardError, with: :render_server_error
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
 
     private
       def render_server_error(exception)
