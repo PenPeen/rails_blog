@@ -13,6 +13,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem 'kaminari'
+gem 'graphql'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
@@ -30,3 +31,4 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+gem "graphiql-rails", group: :development
