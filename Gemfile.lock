@@ -115,8 +115,13 @@ GEM
     factory_bot_rails (6.4.4)
       factory_bot (~> 6.5)
       railties (>= 5.0.0)
+    fiber-storage (1.0.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    graphql (2.5.3)
+      base64
+      fiber-storage
+      logger
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     importmap-rails (2.1.0)
@@ -297,6 +302,7 @@ DEPENDENCIES
   debug
   error_highlight (>= 0.4.0)
   factory_bot_rails
+  graphql
   importmap-rails
   jbuilder
   kaminari
