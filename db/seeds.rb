@@ -1,24 +1,42 @@
 require 'open-uri'
+require 'faker'
 
-puts "Creating users..."
+Faker::Config.locale = 'ja'
+
+puts "Creating 20 users..."
 users = []
-3.times do |i|
+20.times do |i|
+  name = Faker::Name.name
   users << User.create!(
-    name: "ユーザー#{i + 1}",
-    email: "user#{i + 1}@example.com",
+    name: name,
+    email: Faker::Internet.email(name: name),
     password: "password"
   )
-  puts "  Created user #{i + 1}"
+  puts "  Created user #{i + 1}: #{name}"
 end
 
-puts "Creating posts with thumbnails..."
+puts "Creating 100 posts with thumbnails..."
+post_count = 0
 users.each do |user|
-  5.times do |i|
+  # ユーザーごとに投稿数をランダムに分配（合計100件になるよう調整）
+  remaining_users = users.length - users.index(user)
+  remaining_posts = 100 - post_count
+  max_posts_per_user = [remaining_posts / remaining_users * 2, remaining_posts].min
+  num_posts = rand(1..max_posts_per_user)
+
+  num_posts.times do |i|
+    post_count += 1
+    break if post_count > 100
+
+    # Fakerを使ってよりリアルなコンテンツを生成
+    title = Faker::Lorem.sentence(word_count: rand(3..8)).chop
+    content = Faker::Lorem.paragraphs(number: rand(3..8)).join("\n\n")
+
     post = user.posts.create!(
-      title: "#{user.name}の投稿 #{i + 1}",
-      content: "これは#{user.name}の#{i + 1}番目の投稿です。サンプルコンテンツが入ります。",
-      top_image: "https://example.com/image#{rand(1..10)}.jpg",
-      published: [true, false].sample
+      title: title,
+      content: content,
+      top_image: "https://example.com/image#{rand(1..30)}.jpg",
+      published: [true, true, true, false].sample # 75%の確率で公開
     )
 
     # ユニークな画像を取得するためにpost.idをseedとして使用
@@ -30,7 +48,7 @@ users.each do |user|
       content_type: 'image/jpeg'
     )
 
-    puts "  Created post #{i + 1} with unique thumbnail for #{user.name}"
+    puts "  Created post #{post_count}/100: '#{title}' by #{user.name}"
   end
 end
 
