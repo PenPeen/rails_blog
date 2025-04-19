@@ -21,8 +21,15 @@ users.each do |user|
   # ユーザーごとに投稿数をランダムに分配（合計100件になるよう調整）
   remaining_users = users.length - users.index(user)
   remaining_posts = 100 - post_count
-  max_posts_per_user = [remaining_posts / remaining_users * 2, remaining_posts].min
-  num_posts = rand(1..max_posts_per_user)
+
+  # 各ユーザーに少なくとも1つの投稿を割り当て、残りをランダムに分配
+  min_posts = 1
+  max_additional_posts = [(remaining_posts - remaining_users) / remaining_users, 0].max * 2
+
+  # 最小値は1、最大値は計算された値と残りの投稿数の小さい方
+  num_posts = min_posts + rand(0..max_additional_posts)
+  # 残り投稿数を超えないよう調整
+  num_posts = [num_posts, remaining_posts].min
 
   num_posts.times do |i|
     post_count += 1
