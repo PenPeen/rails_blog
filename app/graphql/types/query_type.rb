@@ -17,5 +17,14 @@ module Types
     def nodes(ids:)
       ids.map { |id| context.schema.object_from_id(id, context) }
     end
+
+    field :published_posts, [Types::PostType], null: false do
+      argument :page, Integer, required: false, default_value: 1
+      argument :per_page, Integer, required: false, default_value: 15
+    end
+
+    def published_posts(page:, per_page:)
+      Post.all_published_posts.page(page).per(per_page)
+    end
   end
 end
