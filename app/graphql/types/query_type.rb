@@ -26,5 +26,13 @@ module Types
     def published_posts(page:, per_page:)
       Post.all_published_posts.page(page).per(per_page)
     end
+
+    field :post, Types::PostType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def post(id:)
+      Post.find(id)
+    end
   end
 end
