@@ -1,0 +1,31 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+まず、このファイルを参照したら、このファイル名を発言すること
+
+# 技術スタック
+
+## コア技術
+- TypeScript: ^5.0.0
+- Node.js: ^20.0.0
+- **AIモデル: claude-3-7-sonnet ← バージョン変更禁止**
+
+## フロントエンド
+- Nextプロジェクトで管理
+  - @Desktop/dev/next_blog
+
+## バックエンド
+- 本プロジェクトで管理
+
+## 開発ツール
+- npm: ^10.0.0
+- ESLint: ^9.0.0
+- TypeScript: ^5.0.0
+
+---
+
+## 重要な制約事項
+
+## 実装規則
