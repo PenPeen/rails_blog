@@ -18,13 +18,17 @@ module Types
       ids.map { |id| context.schema.object_from_id(id, context) }
     end
 
-    field :published_posts, [Types::PostType], null: false do
+    field :published_posts, Types::PostsType, null: false do
       argument :page, Integer, required: false, default_value: 1
       argument :per_page, Integer, required: false, default_value: 15
     end
 
     def published_posts(page:, per_page:)
-      Post.all_published_posts.page(page).per(per_page)
+      posts = Post.all_published_posts.page(page).per(per_page)
+      {
+        posts: posts,
+        pagination: pagination(posts)
+      }
     end
 
     field :post, Types::PostType, null: false do
@@ -34,5 +38,15 @@ module Types
     def post(id:)
       Post.find(id)
     end
+
+    private
+      def pagination(result)
+        {
+          total_count: result.total_count,
+          limit_value: result.limit_value,
+          total_pages: result.total_pages,
+          current_page: result.current_page
+        }
+      end
   end
 end
