@@ -5,5 +5,7 @@ module Types
     edge_type_class(Types::BaseEdge)
     connection_type_class(Types::BaseConnection)
     field_class Types::BaseField
+
+    connection_type_class Types::BaseConnection
   end
 end
