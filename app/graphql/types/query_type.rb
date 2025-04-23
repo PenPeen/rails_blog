@@ -31,12 +31,6 @@ module Types
       }
     end
 
-    field :posts, Types::PostType.connection_type, null: false
-
-    def posts
-      Post.all_published_posts.order(id: :desc)
-    end
-
     field :post, Types::PostType, null: false do
       argument :id, ID, required: true
     end
