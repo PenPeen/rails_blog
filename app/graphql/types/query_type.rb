@@ -39,6 +39,20 @@ module Types
       Post.find(id)
     end
 
+    field :search_posts, Types::PostsType, null: false do
+      argument :title, String, required: true
+      argument :page, Integer, required: false, default_value: 1
+      argument :per_page, Integer, required: false, default_value: 15
+    end
+
+    def search_posts(title:, page:, per_page:)
+      posts = Post.search_by_title(title).page(page).per(per_page)
+      {
+        posts: posts,
+        pagination: pagination(posts)
+      }
+    end
+
     private
       def pagination(result)
         {
