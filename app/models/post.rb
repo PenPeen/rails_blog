@@ -33,6 +33,7 @@ class Post < ApplicationRecord
   scope :all_posts, -> { by_recent }
   scope :all_published_posts, -> { published.by_recent }
   scope :publish_posts_for_user, ->(user_id) { where(user_id:).published.by_recent }
+  scope :search_by_title, ->(title) { where("title LIKE ?", "%#{title}%") }
 
   def thumbnail_url
     return nil unless thumbnail.attached?
