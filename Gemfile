@@ -14,6 +14,7 @@ gem "jbuilder"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem 'kaminari'
 gem 'graphql'
+gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
