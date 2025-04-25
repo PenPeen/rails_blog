@@ -10,9 +10,10 @@ class GraphqlController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
+
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      cookies: cookies,
+      current_user:
     }
     result = MyappSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -22,6 +23,10 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def current_user
+    User.find_by(auth_token: cookies.signed[:ss_sid])
+  end
 
   # Handle variables in form data, JSON body, or a blank value
   def prepare_variables(variables_param)
