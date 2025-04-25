@@ -18,6 +18,12 @@ module Types
       ids.map { |id| context.schema.object_from_id(id, context) }
     end
 
+    field :current_user, Types::UserType, null: true
+
+    def current_user
+      context[:current_user]
+    end
+
     field :posts, Types::PostsType, null: false do
       argument :page, Integer, required: false, default_value: 1
       argument :per_page, Integer, required: false, default_value: 15
