@@ -7,12 +7,14 @@ puts "Creating 20 users..."
 users = []
 20.times do |i|
   name = Faker::Name.name
+  # ランダムなパスワードを生成（8〜12文字）
+  random_password = Faker::Internet.password(min_length: 8, max_length: 12)
   users << User.create!(
     name: name,
     email: Faker::Internet.email(name: name),
-    password: "password"
+    password: random_password
   )
-  puts "  Created user #{i + 1}: #{name}"
+  puts "  Created user #{i + 1}: #{name} (password: #{random_password})"
 end
 
 puts "Creating 100 posts with thumbnails..."
