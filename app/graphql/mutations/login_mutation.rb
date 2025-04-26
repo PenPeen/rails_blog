@@ -20,6 +20,7 @@ module Mutations
           expires: 1.year.from_now,
           httponly: true,
           secure: Rails.env.production?,
+          same_site: :lax
         }
 
         {
