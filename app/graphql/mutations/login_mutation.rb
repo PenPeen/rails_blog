@@ -12,8 +12,8 @@ module Mutations
       user = User.find_by(email:)
 
       if user && user.authenticate(password)
-        token = user.generate_token
-        user.save_auth_token!(token)
+        user.create_session!
+        token = user.current_session.key
 
         context[:cookies].signed[:ss_sid] = {
           value: token,
