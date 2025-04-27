@@ -15,6 +15,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem 'kaminari'
 gem 'graphql'
 gem 'bcrypt', '~> 3.1.7'
+gem 'rack-cors'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
