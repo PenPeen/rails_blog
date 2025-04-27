@@ -19,7 +19,7 @@ module Mutations
           value: token,
           expires: 1.year.from_now,
           httponly: true,
-          secure: Rails.env.production?,
+          secure: true,
           same_site: :lax
         }
 
