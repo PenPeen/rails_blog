@@ -27,11 +27,12 @@ end
 group :development do
   gem "web-console"
   gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
-  gem "annotate" # モデルにスキーマ情報を追加
+  gem "annotate"
+  gem 'letter_opener_web', '~> 1.0'
+  gem 'graphiql-rails'
 end
 
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
-gem "graphiql-rails", group: :development
