@@ -1,5 +1,22 @@
 # frozen_string_literal: true
 
+# Usage
+=begin
+mutation Login($email: String!, $password: String!) {
+  login(
+    email: $email
+    password: $password
+  ) {
+    token
+    user {
+      id
+      name
+      email
+    }
+  }
+}
+=end
+
 module Mutations
   class LoginMutation < GraphQL::Schema::Mutation
     argument :email, String, required: true

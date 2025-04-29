@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# Usage
+=begin
+query CurrentUser {
+  currentUser {
+    id
+    email
+    name
+  }
+}
+=end
+
 module Resolvers
   class CurrentUserResolver < GraphQL::Schema::Resolver
     type Types::UserType, null: true

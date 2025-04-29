@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# Usage
+=begin
+query Posts {
+  posts(page: 1, perPage: 3) {
+    posts {
+      id
+      title
+    }
+  }
+}
+=end
+
 module Resolvers
   class PostsResolver < GraphQL::Schema::Resolver
     include Resolvers::PaginationHelper
