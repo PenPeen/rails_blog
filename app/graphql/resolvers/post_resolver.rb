@@ -19,7 +19,7 @@ module Resolvers
     argument :id, ID, required: true
 
     def resolve(id:)
-      Post.find(id)
+      Post.all_published_posts.find(id)
     end
   end
 end
