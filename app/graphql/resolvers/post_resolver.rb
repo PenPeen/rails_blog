@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# Usage
+=begin
+query Post($id: ID!) {
+  post(id: $id) {
+    id
+    title
+    content
+  }
+}
+=end
+
 module Resolvers
   class PostResolver < GraphQL::Schema::Resolver
     type Types::PostType, null: false
@@ -8,7 +19,7 @@ module Resolvers
     argument :id, ID, required: true
 
     def resolve(id:)
-      Post.find(id)
+      Post.all_published_posts.find(id)
     end
   end
 end

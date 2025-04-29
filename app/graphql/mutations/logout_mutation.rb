@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+# Usage
+=begin
+mutation Logout{
+  logout{
+    success
+  }
+}
+=end
+
 module Mutations
   class LogoutMutation < GraphQL::Schema::Mutation
     field :success, Boolean, null: false

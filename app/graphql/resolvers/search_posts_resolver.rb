@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+# Usage
+=begin
+query SearchPosts($title: String!) {
+  searchPosts(title: $title) {
+    posts {
+      id
+      title
+    }
+  }
+}
+=end
+
 module Resolvers
   class SearchPostsResolver < GraphQL::Schema::Resolver
     include Resolvers::PaginationHelper
