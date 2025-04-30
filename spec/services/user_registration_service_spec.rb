@@ -18,6 +18,10 @@ RSpec.describe UserRegistrationService, type: :model do
         expect { service.call }.to change(Token, :count).by(1)
       end
 
+      it 'メール送信ジョブをキューに追加すること' do
+        expect { service.call }.to have_enqueued_job(UserMailerJob)
+      end
+
       it 'ユーザー情報が正しいこと' do
         user = service.call
         expect(user.email).to eq(email)
@@ -51,6 +55,10 @@ RSpec.describe UserRegistrationService, type: :model do
         else
           expect(user.token).to be_present
         end
+      end
+
+      it 'メール送信ジョブをキューに追加すること' do
+        expect { service.call }.to have_enqueued_job(UserMailerJob)
       end
     end
 
