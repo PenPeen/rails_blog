@@ -51,7 +51,7 @@ class UserRegistrationService
     end
 
     def send_registration_email
-      # UserMailerJob.perform_later(user.id, user.token.uuid, :provisional_registration)
+      UserMailerJob.perform_later(user.id, user.token.uuid, :provisional_registration)
     end
 end
 
