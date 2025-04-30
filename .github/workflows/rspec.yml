@@ -29,7 +29,12 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '3.1.7'
-        bundler-cache: true
+        bundler-cache: false
+
+    - name: Update Bundler
+      run: |
+        gem update --system
+        gem install bundler -v 2.4.22
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -41,7 +46,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        bundle install
+        bundle _2.4.22_ install
 
     - name: Set up database
       env:
@@ -50,8 +55,8 @@ jobs:
         DATABASE_USERNAME: root
         DATABASE_PASSWORD: password
       run: |
-        bundle exec rake db:create
-        bundle exec rake db:schema:load
+        bundle _2.4.22_ exec rake db:create
+        bundle _2.4.22_ exec rake db:schema:load
 
     - name: Run tests
       env:
@@ -60,4 +65,4 @@ jobs:
         DATABASE_USERNAME: root
         DATABASE_PASSWORD: password
       run: |
-        bundle exec rspec
+        bundle _2.4.22_ exec rspec
