@@ -1,0 +1,68 @@
+name: RSpec Tests
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: myapp_test
+          TZ: "Asia/Tokyo"
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1.7'
+        bundler-cache: false
+
+    - name: Update Bundler
+      run: |
+        gem update --system
+        gem install bundler -v 2.4.22
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install Yarn
+      run: npm install -g yarn
+
+    - name: Install dependencies
+      run: |
+        bundle _2.4.22_ install
+
+    - name: Update database configuration
+      run: |
+        sed -i 's/host: db/host: 127.0.0.1/g' config/database.yml
+        sed -i 's/password: password/password: password/g' config/database.yml
+        cat config/database.yml
+
+    - name: Set up database
+      env:
+        RAILS_ENV: test
+      run: |
+        bundle _2.4.22_ exec rake db:create
+        bundle _2.4.22_ exec rake db:schema:load
+
+    - name: Run tests
+      env:
+        RAILS_ENV: test
+      run: |
+        bundle _2.4.22_ exec rspec
