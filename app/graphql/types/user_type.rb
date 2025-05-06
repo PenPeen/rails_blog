@@ -11,7 +11,7 @@ module Types
     field :posts, [Types::PostType], null: true
 
     def posts
-      object.posts
+      Loaders::AssociationLoader.for(User, :posts).load(object)
     end
   end
 end
