@@ -27,8 +27,7 @@ class GraphqlController < ApplicationController
       token = cookies.signed[:ss_sid]
       return nil unless token.present?
 
-      session = Session.find_by(key: token)
-      session&.user
+      Session.find_by(key: token)&.user
     end
 
     # Handle variables in form data, JSON body, or a blank value
