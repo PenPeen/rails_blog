@@ -32,20 +32,12 @@ module Mutations
         user.create_session!
         token = user.current_session.key
 
-        context[:cookies].signed[:ss_sid] = {
-          value: token,
-          expires: 1.year.from_now,
-          httponly: true,
-          secure: true,
-          same_site: :lax
-        }
-
         {
           token: token,
           user: user,
         }
       else
-        raise GraphQL::ExecutionError, "Invalid credentials"
+        raise GraphQL::ExecutionError, "メールアドレスまたはパスワードが正しくありません。"
       end
     end
   end

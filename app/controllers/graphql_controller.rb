@@ -24,7 +24,7 @@ class GraphqlController < ApplicationController
 
   private
     def current_user
-      token = cookies.signed[:ss_sid]
+      token = cookies[:ss_sid]
       return nil unless token.present?
 
       Session.find_by(key: token)&.user
