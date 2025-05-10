@@ -38,18 +38,16 @@ module Mutations
           message: "確認メールを送信しました。"
         }
       rescue UserAlreadyRegisteredError => e
-        {
-          user: nil,
-          token: nil,
-          message: e.message
-        }
+        raise GraphQL::ExecutionError.new(
+          "ユーザー登録に失敗しました。\n#{e.message}"
+        )
       rescue ActiveRecord::RecordInvalid => e
         raise GraphQL::ExecutionError.new(
-          "ユーザー登録に失敗しました: #{e.record.errors.full_messages.join(', ')}"
+          "ユーザー登録に失敗しました。\n#{e.record.errors.full_messages.join(', ')}"
         )
       rescue StandardError => e
         raise GraphQL::ExecutionError.new(
-          "予期せぬエラーが発生しました: #{e.message}"
+          "予期せぬエラーが発生しました。\n#{e.message}"
         )
       end
     end
