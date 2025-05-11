@@ -19,9 +19,9 @@ module Resolvers
     type Types::PostsType, null: false
     description "Searches posts by title"
 
-    argument :title, String, required: true
     argument :page, Integer, required: false, default_value: 1
     argument :per_page, Integer, required: false, default_value: 15
+    argument :title, String, required: true
 
     def resolve(title:, page:, per_page:)
       posts = Post.search_by_title(title).page(page).per(per_page)
