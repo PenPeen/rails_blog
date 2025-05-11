@@ -18,7 +18,11 @@ services:
     tty: true
     volumes:
       - .:/myapp
+      - bundle_cache:/usr/local/bundle
     ports:
       - "5001:3000"
     depends_on:
       - db
+
+volumes:
+  bundle_cache:
