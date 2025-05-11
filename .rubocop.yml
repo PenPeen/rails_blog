@@ -1,0 +1,31 @@
+require:
+  - rubocop-graphql
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+
+GraphQL/ObjectDescription:
+  Enabled: false
+
+GraphQL/FieldDescription:
+  Enabled: false
+
+GraphQL/ArgumentDescription:
+  Enabled: false
+
+GraphQL/ExtractType:
+  Enabled: true
+
+GraphQL/ExtractInputType:
+  Enabled: true
+
+GraphQL/ResolverMethodLength:
+  Max: 15

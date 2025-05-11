@@ -1,0 +1,29 @@
+name: GraphQL Linting
+
+on:
+  pull_request:
+
+jobs:
+  rubocop-graphql:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1.7'
+        bundler-cache: false
+
+    - name: Update Bundler
+      run: |
+        gem update --system
+        gem install bundler -v 2.4.22
+
+    - name: Install dependencies
+      run: |
+        bundle _2.4.22_ install
+
+    - name: Run Rubocop GraphQL
+      run: |
+        bundle _2.4.22_ exec rubocop --require rubocop-graphql --only GraphQL
