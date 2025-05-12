@@ -1,0 +1,20 @@
+name: Check GraphQL Schema
+
+on:
+  pull_request:
+    paths:
+      - "app/graphql/myapp_schema.graphql"
+
+jobs:
+  test:
+    name: Check Schema
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - uses: kamilkisiela/graphql-inspector@master
+        with:
+          schema: "develop:app/schema.json"
+          fail-on-breaking: false
