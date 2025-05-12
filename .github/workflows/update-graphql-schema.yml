@@ -11,21 +11,51 @@ jobs:
     name: Update GraphQL Schema
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: myapp_test
+          TZ: "Asia/Tokyo"
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: false
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.7'
+          bundler-cache: false
 
-      - name: Build Docker images
-        run: docker compose build
+      - name: Update Bundler
+        run: |
+          gem update --system
+          gem install bundler -v 2.4.22
+
+      - name: Install dependencies
+        run: |
+          bundle _2.4.22_ install
+
+      - name: Update database configuration
+        run: |
+          sed -i 's/host: db/host: 127.0.0.1/g' config/database.yml
+          sed -i 's/password: password/password: password/g' config/database.yml
 
       - name: Generate GraphQL schema
-        run: docker compose run --rm web bundle exec rails graphql:schema:json
+        run: bundle _2.4.22_ exec rails graphql:schema:json
 
       - name: Check for schema changes
         id: git-check
@@ -39,4 +69,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git commit -m "chore: Update GraphQL schema" schema.json
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push origin HEAD:${{ github.head_ref }}
