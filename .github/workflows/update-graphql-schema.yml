@@ -6,7 +6,6 @@ on:
     paths:
       - 'app/graphql/**/*.rb'
 
-# GitHub Actionsに書き込み権限を付与
 permissions:
   contents: write
   pull-requests: write
