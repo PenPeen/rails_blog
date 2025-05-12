@@ -61,16 +61,10 @@ jobs:
       - name: Generate GraphQL schema
         run: bundle _2.4.22_ exec rails graphql:schema:json
 
-      - name: Check for schema changes
-        id: git-check
-        run: |
-          git add schema.json
-          git diff --staged --quiet schema.json || echo "schema_changed=true" >> $GITHUB_OUTPUT
-
       - name: Commit and push schema changes
-        if: steps.git-check.outputs.schema_changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git commit -m "chore: Update GraphQL schema" schema.json
-          git push
+          git add schema.json
+          git commit -m "chore: Update GraphQL schema" schema.json || echo "No changes to commit"
+          git push || echo "No changes to push"
