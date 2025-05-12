@@ -9,10 +9,5 @@ module Types
     field :my_posts, resolver: Resolvers::MyPostsResolver
     field :post, resolver: Resolvers::PostResolver
     field :search_posts, resolver: Resolvers::SearchPostsResolver
-
-    field :test, String, null: false
-    def test
-      "test"
-    end
   end
 end
