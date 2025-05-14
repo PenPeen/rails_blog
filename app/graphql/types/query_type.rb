@@ -6,8 +6,6 @@ module Types
     field :my_posts, resolver: Resolvers::MyPostsResolver
     field :node, resolver: Resolvers::NodeResolver
     field :nodes, resolver: Resolvers::NodesResolver
-    field :published_posts, resolver: Resolvers::PublishedPostsResolver
-    field :published_post, resolver: Resolvers::PublishedPostResolver
-    field :published_search_posts, resolver: Resolvers::PublishedSearchPostsResolver
+    field :published, Types::PublishedType, resolver: Resolvers::PublishedResolver
   end
 end
