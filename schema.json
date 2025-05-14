@@ -579,8 +579,8 @@
               "deprecationReason": null
             },
             {
-              "name": "post",
-              "description": "Fetches a post by ID",
+              "name": "publishedPost",
+              "description": "Fetches a published post by ID",
               "args": [
                 {
                   "name": "id",
@@ -612,8 +612,8 @@
               "deprecationReason": null
             },
             {
-              "name": "posts",
-              "description": "Fetches a list of posts with pagination",
+              "name": "publishedPosts",
+              "description": "Fetches a list of published posts with pagination",
               "args": [
                 {
                   "name": "page",
@@ -653,8 +653,8 @@
               "deprecationReason": null
             },
             {
-              "name": "searchPosts",
-              "description": "Searches posts by title",
+              "name": "publishedSearchPosts",
+              "description": "Searches published posts by title",
               "args": [
                 {
                   "name": "title",

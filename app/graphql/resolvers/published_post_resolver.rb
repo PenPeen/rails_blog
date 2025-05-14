@@ -2,8 +2,8 @@
 
 # Usage
 =begin
-query Post($id: ID!) {
-  post(id: $id) {
+query PublishedPost($id: ID!) {
+  publishedPost(id: $id) {
     id
     title
     content
@@ -12,9 +12,9 @@ query Post($id: ID!) {
 =end
 
 module Resolvers
-  class PostResolver < GraphQL::Schema::Resolver
+  class PublishedPostResolver < GraphQL::Schema::Resolver
     type Types::PostType, null: false
-    description "Fetches a post by ID"
+    description "Fetches a published post by ID"
 
     argument :id, ID, required: true
 

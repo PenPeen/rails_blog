@@ -5,9 +5,9 @@ module Types
     field :node, resolver: Resolvers::NodeResolver
     field :nodes, resolver: Resolvers::NodesResolver
     field :current_user, resolver: Resolvers::CurrentUserResolver
-    field :posts, resolver: Resolvers::PostsResolver
+    field :published_posts, resolver: Resolvers::PublishedPostsResolver
     field :my_posts, resolver: Resolvers::MyPostsResolver
-    field :post, resolver: Resolvers::PostResolver
-    field :search_posts, resolver: Resolvers::SearchPostsResolver
+    field :published_post, resolver: Resolvers::PublishedPostResolver
+    field :published_search_posts, resolver: Resolvers::PublishedSearchPostsResolver
   end
 end
