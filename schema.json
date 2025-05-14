@@ -657,22 +657,6 @@
               "description": "Searches published posts by title",
               "args": [
                 {
-                  "name": "title",
-                  "description": null,
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null,
-                  "isDeprecated": false,
-                  "deprecationReason": null
-                },
-                {
                   "name": "page",
                   "description": null,
                   "type": {
@@ -693,6 +677,22 @@
                     "ofType": null
                   },
                   "defaultValue": "15",
+                  "isDeprecated": false,
+                  "deprecationReason": null
+                },
+                {
+                  "name": "title",
+                  "description": null,
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null,
                   "isDeprecated": false,
                   "deprecationReason": null
                 }
@@ -843,7 +843,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "name",
+              "name": "email",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
@@ -859,7 +859,7 @@
               "deprecationReason": null
             },
             {
-              "name": "email",
+              "name": "name",
               "description": null,
               "type": {
                 "kind": "NON_NULL",
