@@ -29,3 +29,6 @@ GraphQL/ExtractInputType:
 
 GraphQL/ResolverMethodLength:
   Max: 15
+
+plugins:
+  - rubocop-graphql

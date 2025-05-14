@@ -3,10 +3,12 @@
 # Usage
 =begin
 query PublishedPost($id: ID!) {
-  publishedPost(id: $id) {
-    id
-    title
-    content
+  published {
+    post(id: $id) {
+      id
+      title
+      content
+    }
   }
 }
 =end

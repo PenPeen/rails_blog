@@ -3,10 +3,12 @@
 # Usage
 =begin
 query PublishedPosts {
-  publishedPosts(page: 1, perPage: 3) {
-    posts {
-      id
-      title
+  published {
+    posts(page: 1, perPage: 3) {
+      posts {
+        id
+        title
+      }
     }
   }
 }

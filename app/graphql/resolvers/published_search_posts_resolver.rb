@@ -3,10 +3,12 @@
 # Usage
 =begin
 query PublishedSearchPosts($title: String!) {
-  publishedSearchPosts(title: $title) {
-    posts {
-      id
-      title
+  published {
+    searchPosts(title: $title) {
+      posts {
+        id
+        title
+      }
     }
   }
 }
