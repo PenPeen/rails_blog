@@ -2,8 +2,8 @@
 
 # Usage
 =begin
-query SearchPosts($title: String!) {
-  searchPosts(title: $title) {
+query PublishedPosts {
+  publishedPosts(page: 1, perPage: 3) {
     posts {
       id
       title
@@ -13,18 +13,17 @@ query SearchPosts($title: String!) {
 =end
 
 module Resolvers
-  class SearchPostsResolver < GraphQL::Schema::Resolver
+  class PublishedPostsResolver < GraphQL::Schema::Resolver
     include Resolvers::PaginationHelper
 
     type Types::PostsType, null: false
-    description "Searches posts by title"
+    description "Fetches a list of published posts with pagination"
 
     argument :page, Integer, required: false, default_value: 1
     argument :per_page, Integer, required: false, default_value: 15
-    argument :title, String, required: true
 
-    def resolve(title:, page:, per_page:)
-      posts = Post.search_by_title(title).page(page).per(per_page)
+    def resolve(page:, per_page:)
+      posts = Post.all_published_posts.page(page).per(per_page)
       {
         posts: posts,
         pagination: pagination(posts)
