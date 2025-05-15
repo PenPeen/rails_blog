@@ -33,7 +33,7 @@ module Mutations
       begin
         user = service.call
         {
-          user: user,
+          user:,
           token: user.token.uuid,
           message: "確認メールを送信しました。"
         }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Loaders
   class AssociationLoader < GraphQL::Batch::Loader
     def self.validate(model, association_name)
@@ -37,7 +39,7 @@ module Loaders
     end
 
     def preload_association(records)
-      ::ActiveRecord::Associations::Preloader.new(records: records, associations: @association_name).call
+      ::ActiveRecord::Associations::Preloader.new(records:, associations: @association_name).call
     end
 
     def read_association(record)

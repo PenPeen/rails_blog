@@ -7,7 +7,7 @@ RSpec.describe UserRegistrationService, type: :model do
     let(:email) { 'test@example.com' }
     let(:name) { 'テストユーザー' }
     let(:password) { 'password' }
-    let(:service) { described_class.new(email: email, name: name, password: password) }
+    let(:service) { described_class.new(email:, name:, password:) }
 
     context '新規ユーザーの場合' do
       it 'ユーザーを登録できること' do
@@ -40,7 +40,7 @@ RSpec.describe UserRegistrationService, type: :model do
     end
 
     context '登録済みユーザーの場合（definitive = false）' do
-      let!(:existing_user) { FactoryBot.create(:user, email: email, definitive: false) }
+      let!(:existing_user) { FactoryBot.create(:user, email:, definitive: false) }
 
       it '新規ユーザーを作成しないこと' do
         expect { service.call }.not_to change(User, :count)
@@ -64,7 +64,7 @@ RSpec.describe UserRegistrationService, type: :model do
 
     context '登録済み確定ユーザーの場合（definitive = true）' do
       before do
-        FactoryBot.create(:user, email: email, definitive: true)
+        FactoryBot.create(:user, email:, definitive: true)
       end
 
       it 'UserAlreadyRegisteredErrorを発生させること' do

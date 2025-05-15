@@ -28,7 +28,7 @@ module Resolvers
     def resolve(title:, page:, per_page:)
       posts = Post.all_published_posts.search_by_title(title).page(page).per(per_page)
       {
-        posts: posts,
+        posts:,
         pagination: pagination(posts)
       }
     end

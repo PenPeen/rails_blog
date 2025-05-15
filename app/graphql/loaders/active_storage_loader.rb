@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ####
 # This is a loader for has_one_attached and has_many_attached Active Storage attachments
 # To load a variant for an attachment, 2 queries are required
@@ -56,7 +58,7 @@ module Loaders
     def perform(record_ids)
       # find records and fulfill promises
       attachments = ActiveStorage::Attachment.includes(:blob).where(
-        record_type: record_type, record_id: record_ids, name: attachment_name
+        record_type:, record_id: record_ids, name: attachment_name
       )
 
       if @association_type == :has_one_attached

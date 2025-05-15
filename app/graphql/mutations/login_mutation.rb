@@ -33,8 +33,8 @@ module Mutations
         token = user.current_session.key
 
         {
-          token: token,
-          user: user,
+          token:,
+          user:
         }
       else
         raise GraphQL::ExecutionError, "メールアドレスまたはパスワードが正しくありません。"
