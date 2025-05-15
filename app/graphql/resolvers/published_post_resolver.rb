@@ -21,7 +21,10 @@ module Resolvers
     argument :id, ID, required: true
 
     def resolve(id:)
-      Post.all_published_posts.find(id)
+      post = Post.all_published_posts.find_by(id:)
+      raise GraphQL::ExecutionError, "Post not found" unless post
+
+      post
     end
   end
 end
