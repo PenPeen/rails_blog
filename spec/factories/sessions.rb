@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :session do
-    user { nil }
-    key { "MyString" }
+    association :user
+    key { Session.generate_key }
   end
 end

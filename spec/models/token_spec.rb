@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Token, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'Factory' do
+    it 'is valid' do
+      expect { FactoryBot.build(:token).save! }.not_to raise_error
+    end
+  end
 end
