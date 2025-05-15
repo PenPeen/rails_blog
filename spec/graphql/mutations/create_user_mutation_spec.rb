@@ -45,7 +45,7 @@ RSpec.describe 'CreateUser Mutation', type: :request do
           expect(data['token']).to be_present
           expect(data['message']).to eq('確認メールを送信しました。')
 
-          user = User.find_by(email: email)
+          user = User.find_by(email:)
           expect(user).to be_present
           expect(user.name).to eq(name)
           expect(user.definitive).to eq(false)
@@ -59,11 +59,11 @@ RSpec.describe 'CreateUser Mutation', type: :request do
 
     context 'メールアドレスが既に登録されている場合' do
       before do
-        FactoryBot.create(:user, email: email, definitive: true)
+        FactoryBot.create(:user, email:, definitive: true)
       end
 
       it 'エラーレスポンスを返すこと' do
-        result = MyappSchema.execute(query_string, variables: variables)
+        result = MyappSchema.execute(query_string, variables:)
 
         expect(result['errors']).to be_present
         expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')
@@ -81,7 +81,7 @@ RSpec.describe 'CreateUser Mutation', type: :request do
       let(:email) { '' }
 
       it 'エラーレスポンスを返すこと' do
-        result = MyappSchema.execute(query_string, variables: variables)
+        result = MyappSchema.execute(query_string, variables:)
 
         expect(result['errors']).to be_present
         expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')

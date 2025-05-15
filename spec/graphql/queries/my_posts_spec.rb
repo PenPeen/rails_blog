@@ -25,14 +25,14 @@ RSpec.describe 'MyPosts Query', type: :request do
     end
 
     let(:user) { create(:user) }
-    let!(:posts) { create_list(:post, 5, user: user) }
+    let!(:posts) { create_list(:post, 5, user:) }
     let(:variables) { { page: 1, perPage: 3 } }
 
     context 'ログインしている場合' do
       it '自分の投稿一覧を返すこと' do
         result = MyappSchema.execute(
           query_string,
-          variables: variables,
+          variables:,
           context: { current_user: user }
         )
 
@@ -53,7 +53,7 @@ RSpec.describe 'MyPosts Query', type: :request do
       it 'エラーを返すこと' do
         result = MyappSchema.execute(
           query_string,
-          variables: variables,
+          variables:,
           context: { current_user: nil }
         )
 

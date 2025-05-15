@@ -27,12 +27,12 @@ RSpec.describe 'PublishedPosts Query', type: :request do
     end
 
     let(:user) { create(:user) }
-    let!(:published_posts) { create_list(:post, 5, user: user, published: true) }
-    let!(:unpublished_posts) { create_list(:post, 3, user: user, published: false) }
+    let!(:published_posts) { create_list(:post, 5, user:, published: true) }
+    let!(:unpublished_posts) { create_list(:post, 3, user:, published: false) }
     let(:variables) { { page: 1, perPage: 3 } }
 
     it '公開済み投稿一覧を返すこと' do
-      result = MyappSchema.execute(query_string, variables: variables)
+      result = MyappSchema.execute(query_string, variables:)
 
       data = result['data']['published']['posts']
       expect(data['posts'].size).to eq(3)
@@ -52,7 +52,7 @@ RSpec.describe 'PublishedPosts Query', type: :request do
       let(:variables) { { page: 2, perPage: 3 } }
 
       it '指定したページの投稿を返すこと' do
-        result = MyappSchema.execute(query_string, variables: variables)
+        result = MyappSchema.execute(query_string, variables:)
 
         data = result['data']['published']['posts']
         expect(data['posts'].size).to eq(2) # 2ページ目には残り2件
