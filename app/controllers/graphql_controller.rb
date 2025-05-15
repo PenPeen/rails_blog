@@ -12,10 +12,10 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
 
     context = {
-      cookies: cookies,
+      cookies:,
       current_user:
     }
-    result = MyappSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = MyappSchema.execute(query, variables:, context:, operation_name:)
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?

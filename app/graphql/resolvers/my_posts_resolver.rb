@@ -27,7 +27,7 @@ module Resolvers
       posts = current_user.posts.page(page).per(per_page)
 
       {
-        posts: posts,
+        posts:,
         pagination: pagination(posts)
       }
     end
