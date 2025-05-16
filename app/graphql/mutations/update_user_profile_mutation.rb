@@ -41,7 +41,7 @@ module Mutations
       }
     rescue ActiveRecord::RecordInvalid => e
       raise GraphQL::ExecutionError.new(
-        "プロフィール更新に失敗しました。\n#{e.record.errors.full_messages.join(', ')}"
+        "プロフィール更新に失敗しました。\n#{e.record.errors.full_messages.join("\n")}"
       )
     rescue StandardError => e
       raise GraphQL::ExecutionError.new(
