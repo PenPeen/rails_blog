@@ -1,0 +1,66 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      post: 投稿
+      user_image: ユーザー画像
+    attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+      post:
+        title: タイトル
+        content: 内容
+        published: 公開状態
+        thumbnail: サムネイル
+      user_image:
+        profile: プロフィール画像
+    errors:
+      models:
+        user:
+          attributes:
+            name:
+              blank: を入力してください
+              too_long: は%{count}文字以内で入力してください
+            email:
+              blank: を入力してください
+              taken: はすでに使用されています
+            password:
+              blank: を入力してください
+              too_short: は%{count}文字以上で入力してください
+        post:
+          attributes:
+            title:
+              blank: を入力してください
+            content:
+              blank: を入力してください
+
+  activemodel:
+    errors:
+      messages:
+        blank: を入力してください
+        too_long: は%{count}文字以内で入力してください
+        too_short: は%{count}文字以上で入力してください
+        confirmation: が一致しません
+        taken: はすでに使用されています
+        invalid: は不正な値です
+
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: を入力してください
+      too_long: は%{count}文字以内で入力してください
+      too_short: は%{count}文字以上で入力してください
+      confirmation: が一致しません
+      taken: はすでに使用されています
+      invalid: は不正な値です
+      inclusion: は一覧にありません
+      exclusion: は予約されています
+      not_a_number: は数値で入力してください
+      not_an_integer: は整数で入力してください
+      greater_than: は%{count}より大きい値にしてください
+      greater_than_or_equal_to: は%{count}以上の値にしてください
+      less_than: は%{count}より小さい値にしてください
+      less_than_or_equal_to: は%{count}以下の値にしてください
