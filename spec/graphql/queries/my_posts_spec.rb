@@ -27,16 +27,18 @@ RSpec.describe 'MyPosts Query', type: :request do
     let(:user) { create(:user) }
     let!(:posts) { create_list(:post, 5, user:) }
     let(:variables) { { page: 1, perPage: 3 } }
+    let(:current_user) { user }
+    let(:result) do
+      MyappSchema.execute(
+        query_string,
+        variables:,
+        context: { current_user: current_user }
+      )
+    end
+    let(:data) { result['data'] && result['data']['myPosts'] }
 
     context 'ログインしている場合' do
       it '自分の投稿一覧を返すこと' do
-        result = MyappSchema.execute(
-          query_string,
-          variables:,
-          context: { current_user: user }
-        )
-
-        data = result['data']['myPosts']
         expect(data['posts'].size).to eq(3)
         expect(data['posts'][0]['id']).to eq(posts.first.id.to_s)
         expect(data['posts'][0]['title']).to eq(posts.first.title)
@@ -50,13 +52,9 @@ RSpec.describe 'MyPosts Query', type: :request do
     end
 
     context 'ログインしていない場合' do
-      it 'エラーを返すこと' do
-        result = MyappSchema.execute(
-          query_string,
-          variables:,
-          context: { current_user: nil }
-        )
+      let(:current_user) { nil }
 
+      it 'エラーを返すこと' do
         expect(result['errors']).to be_present
         expect(result['errors'][0]['message']).to include('You must be logged in')
       end
