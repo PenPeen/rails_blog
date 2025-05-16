@@ -32,13 +32,12 @@ RSpec.describe 'CreateUser Mutation', type: :request do
         }
       }
     end
+    let(:result) { MyappSchema.execute(query_string, variables:) }
+    let(:data) { result['data'] && result['data']['createUser'] }
 
     context '正常なパラメータの場合' do
       it 'ユーザーを作成し、成功レスポンスを返すこと' do
         expect {
-          result = MyappSchema.execute(query_string, variables:)
-          data = result['data']['createUser']
-
           expect(data['user']).to be_present
           expect(data['user']['name']).to eq(name)
           expect(data['user']['email']).to eq(email)
@@ -63,14 +62,10 @@ RSpec.describe 'CreateUser Mutation', type: :request do
       end
 
       it 'エラーレスポンスを返すこと' do
-        result = MyappSchema.execute(query_string, variables:)
-
-        expect(result['errors']).to be_present
-        expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')
-        expect(result['errors'][0]['message']).to include('入力されたメールアドレスは登録済みです')
-
         expect {
-          result
+          expect(result['errors']).to be_present
+          expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')
+          expect(result['errors'][0]['message']).to include('入力されたメールアドレスは登録済みです')
         }.to not_change(User, :count)
           .and not_change(Token, :count)
           .and not_enqueue_job(UserMailerJob)
@@ -81,13 +76,9 @@ RSpec.describe 'CreateUser Mutation', type: :request do
       let(:email) { '' }
 
       it 'エラーレスポンスを返すこと' do
-        result = MyappSchema.execute(query_string, variables:)
-
-        expect(result['errors']).to be_present
-        expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')
-
         expect {
-          result
+          expect(result['errors']).to be_present
+          expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')
         }.to not_change(User, :count)
           .and not_change(Token, :count)
           .and not_enqueue_job(UserMailerJob)
