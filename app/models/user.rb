@@ -25,6 +25,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
+  validates :name, length: { maximum: 10 }
 
   def create_session!
     sessions.create!(key: Session.generate_key)
