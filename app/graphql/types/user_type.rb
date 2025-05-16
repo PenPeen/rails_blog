@@ -8,10 +8,15 @@ module Types
     field :name, String, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
 
+    field :user_image, Types::UserImageType, null: true
     field :posts, [Types::PostType], null: true
 
     def posts
       Loaders::AssociationLoader.for(User, :posts).load(object)
+    end
+
+    def user_image
+      Loaders::AssociationLoader.for(User, :user_image).load(object)
     end
   end
 end
