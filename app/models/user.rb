@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :sessions, dependent: :destroy
   has_one :token, dependent: :destroy
+  has_one :user_image, dependent: :destroy
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
