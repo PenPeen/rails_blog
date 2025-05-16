@@ -77,8 +77,7 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
       it 'エラーレスポンスを返すこと' do
         expect(result['errors']).to be_present
         error_message = result['errors'][0]['message']
-        expect(error_message).to include('プロフィール更新に失敗しました')
-        expect(error_message).to include("can't be blank")
+        expect(error_message).to eq("プロフィール更新に失敗しました。\n名前を入力してください")
       end
 
       context 'ファイルサイズが大きすぎる場合' do
