@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-graphql
 
 AllCops:
@@ -22,13 +22,10 @@ GraphQL/ArgumentDescription:
   Enabled: false
 
 GraphQL/ExtractType:
-  Enabled: true
+  Enabled: false
 
 GraphQL/ExtractInputType:
   Enabled: true
 
 GraphQL/ResolverMethodLength:
   Max: 15
-
-plugins:
-  - rubocop-graphql
