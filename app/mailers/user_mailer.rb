@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
   def provisional_registration(user, token)
     @user = user
     @token = token
-    @url = "#{Rails.application.routes.default_url_options[:host]}/registration/confirm?token=#{token}"
+    @url = "http://localhost:3000/registration/confirm?token=#{token}"
 
     mail(
       to: @user.email,
