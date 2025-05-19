@@ -18,15 +18,15 @@ RSpec.describe 'MyPost Query', type: :request do
     end
 
     let(:user) { create(:user) }
-    let!(:post) { create(:post, user: user) }
+    let!(:post) { create(:post, user:) }
     let(:post_id) { post.id }
     let(:variables) { { id: post_id } }
     let(:current_user) { user }
     let(:result) do
       MyappSchema.execute(
         query_string,
-        variables: variables,
-        context: { current_user: current_user }
+        variables:,
+        context: { current_user: }
       )
     end
     let(:data) { result['data'] && result['data']['myPost'] }
