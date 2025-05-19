@@ -29,13 +29,17 @@ module Mutations
       user = User.find_by(email:)
 
       if user && user.authenticate(password)
-        user.create_session!
-        token = user.current_session.key
+        if user.definitive?
+          user.create_session!
+          token = user.current_session.key
 
-        {
-          token:,
-          user:
-        }
+          {
+            token:,
+            user:
+          }
+        else
+          raise GraphQL::ExecutionError, "メールアドレスの認証が完了していません。\nメールをご確認ください。"
+        end
       else
         raise GraphQL::ExecutionError, "メールアドレスまたはパスワードが正しくありません。"
       end
