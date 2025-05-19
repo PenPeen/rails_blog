@@ -8,7 +8,6 @@ module Types
     field :published, Boolean
     field :thumbnail_url, String
     field :title, String, null: false
-    field :top_image, String
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :user_id, Integer, null: false
 

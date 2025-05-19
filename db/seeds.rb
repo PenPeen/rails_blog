@@ -44,7 +44,6 @@ users.each do |user|
     post = user.posts.create!(
       title: title,
       content: content,
-      top_image: "https://example.com/image#{rand(1..30)}.jpg",
       published: [true, true, true, false].sample # 75%の確率で公開
     )
 
