@@ -15,16 +15,13 @@ query PublishedPost($id: ID!) {
 
 module Resolvers
   class PublishedPostResolver < GraphQL::Schema::Resolver
-    type Types::PostType, null: false
+    type Types::PostType, null: true
     description "Fetches a published post by ID"
 
     argument :id, ID, required: true
 
     def resolve(id:)
-      post = Post.all_published_posts.find_by(id:)
-      raise GraphQL::ExecutionError, "Post not found" unless post
-
-      post
+      Post.all_published_posts.find_by(id:)
     end
   end
 end
