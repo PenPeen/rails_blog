@@ -7,5 +7,6 @@ module Types
 
     field :create_user, mutation: Mutations::CreateUserMutation
     field :update_user_profile, mutation: Mutations::UpdateUserProfileMutation
+    field :confirm_registration, mutation: Mutations::ConfirmRegistrationMutation
   end
 end
