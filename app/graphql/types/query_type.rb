@@ -3,6 +3,7 @@
 module Types
   class QueryType < Types::BaseObject
     field :current_user, resolver: Resolvers::CurrentUserResolver
+    field :my_post, resolver: Resolvers::MyPostResolver
     field :my_posts, resolver: Resolvers::MyPostsResolver
     field :node, resolver: Resolvers::NodeResolver
     field :nodes, resolver: Resolvers::NodesResolver
