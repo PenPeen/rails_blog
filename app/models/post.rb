@@ -24,6 +24,7 @@ class Post < ApplicationRecord
   has_one_attached :thumbnail
 
   validates :title, :content, presence: true
+  validates :title, length: { maximum: 50 }
 
   scope :published, -> { where(published: true) }
   scope :hidden, -> { where(published: false) }
