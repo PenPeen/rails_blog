@@ -4,7 +4,7 @@ class UserMailer < ApplicationMailer
   def provisional_registration(user, token)
     @user = user
     @token = token
-    @url = "http://localhost:3000/registration/confirm?token=#{token}"
+    @url = "http://localhost:3000/api/registration/confirm?token=#{token}"
 
     mail(
       to: @user.email,
