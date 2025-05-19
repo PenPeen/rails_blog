@@ -18,8 +18,8 @@ module Mutations
   class UpdatePostMutation < LoginRequiredMutation
     argument :post_input, Types::PostInputType, required: true
 
-    field :post, Types::PostType, null: false
     field :message, String, null: false
+    field :post, Types::PostType, null: false
 
     def resolve(post_input:)
       post = find_post(post_input.id)
