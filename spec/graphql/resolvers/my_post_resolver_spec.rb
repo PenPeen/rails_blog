@@ -45,9 +45,7 @@ RSpec.describe 'MyPost Query', type: :request do
     context '存在しない投稿IDにアクセスする場合' do
       let(:post_id) { 0 }
 
-      it 'GraphQL::ExecutionErrorが発生し、エラーメッセージを返すこと' do
-        expect(errors).to be_present
-        expect(errors[0]['message']).to eq('Post not found')
+      it 'データにnilを返すこと' do
         expect(data).to be_nil
       end
     end

@@ -17,6 +17,10 @@ RSpec.describe 'Login Mutation', type: :request do
               name
               email
             }
+            errors {
+              message
+              path
+            }
           }
         }
       GRAPHQL
@@ -53,9 +57,11 @@ RSpec.describe 'Login Mutation', type: :request do
       let!(:user) { FactoryBot.create(:user, email: email, password: password, definitive: false) }
 
       it 'ログインに失敗し、エラーメッセージを返すこと' do
-        expect(data).to be_nil
-        expect(result['errors']).to be_present
-        expect(result['errors'][0]['message']).to eq("メールアドレスの認証が完了していません。\nメールをご確認ください。")
+        expect(data['token']).to be_nil
+        expect(data['user']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to eq("メールアドレスの認証が完了していません。\nメールをご確認ください。")
+        expect(data['errors'][0]['path']).to eq(["email"])
       end
 
       it 'セッションが作成されないこと' do
@@ -67,9 +73,11 @@ RSpec.describe 'Login Mutation', type: :request do
       let!(:user) { FactoryBot.create(:user, email: 'other@example.com', password: password) }
 
       it 'ログインに失敗し、エラーメッセージを返すこと' do
-        expect(data).to be_nil
-        expect(result['errors']).to be_present
-        expect(result['errors'][0]['message']).to eq('メールアドレスまたはパスワードが正しくありません。')
+        expect(data['token']).to be_nil
+        expect(data['user']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to eq('メールアドレスまたはパスワードが正しくありません。')
+        expect(data['errors'][0]['path']).to contain_exactly('email', 'password')
       end
     end
 
@@ -77,9 +85,11 @@ RSpec.describe 'Login Mutation', type: :request do
       let!(:user) { FactoryBot.create(:user, email: email, password: 'wrong_password') }
 
       it 'ログインに失敗し、エラーメッセージを返すこと' do
-        expect(data).to be_nil
-        expect(result['errors']).to be_present
-        expect(result['errors'][0]['message']).to eq('メールアドレスまたはパスワードが正しくありません。')
+        expect(data['token']).to be_nil
+        expect(data['user']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to eq('メールアドレスまたはパスワードが正しくありません。')
+        expect(data['errors'][0]['path']).to contain_exactly('email', 'password')
       end
     end
   end

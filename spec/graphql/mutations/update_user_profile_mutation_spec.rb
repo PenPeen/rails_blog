@@ -14,6 +14,10 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
               email
             }
             message
+            errors {
+              message
+              path
+            }
           }
         }
       GRAPHQL
@@ -39,15 +43,15 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
         context: { current_user: current_user }
       )
     end
+    let(:data) { result['data'] && result['data']['updateUserProfile'] }
     let(:current_user) { user }
 
     context '正常なパラメータの場合' do
       it 'ユーザープロフィールを更新し、成功レスポンスを返すこと' do
-        data = result['data']['updateUserProfile']
-
         expect(data['user']).to be_present
         expect(data['user']['name']).to eq(name)
         expect(data['message']).to eq('プロフィールが正常に更新されました。')
+        expect(data['errors']).to be_nil
 
         user.reload
         expect(user.name).to eq(name)
@@ -57,11 +61,10 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
         let(:profile) { 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' }
 
         it 'プロフィール画像も更新されること' do
-          data = result['data']['updateUserProfile']
-
           expect(data['user']).to be_present
           expect(data['user']['name']).to eq(name)
           expect(data['message']).to eq('プロフィールが正常に更新されました。')
+          expect(data['errors']).to be_nil
 
           user.reload
           expect(user.name).to eq(name)
@@ -75,9 +78,11 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
       let(:name) { '' }
 
       it 'エラーレスポンスを返すこと' do
-        expect(result['errors']).to be_present
-        error_message = result['errors'][0]['message']
-        expect(error_message).to eq("プロフィール更新に失敗しました。\n名前を入力してください")
+        expect(data['user']).to be_nil
+        expect(data['message']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to include('名前')
+        expect(data['errors'][0]['path']).to eq(['userProfileInput', 'name'])
       end
 
       context 'ファイルサイズが大きすぎる場合' do
@@ -90,10 +95,11 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
         let(:profile) { 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' }
 
         it 'ファイルサイズのエラーを返すこと' do
-          expect(result['errors']).to be_present
-          error_message = result['errors'][0]['message']
-          expect(error_message).to include('プロフィール更新に失敗しました')
-          expect(error_message).to include('ファイルサイズは2MB以下にしてください')
+          expect(data['user']).to be_nil
+          expect(data['message']).to be_nil
+          expect(data['errors']).to be_present
+          expect(data['errors'][0]['message']).to include('ファイルサイズは2MB以下にしてください')
+          expect(data['errors'][0]['path']).to eq(['userProfileInput', 'profile'])
         end
       end
     end
@@ -101,9 +107,10 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
     context '未認証の場合' do
       let(:current_user) { nil }
 
-      it 'エラーレスポンスを返すこと' do
+      it 'ログインエラーを返すこと' do
+        expect(data).to be_nil
         expect(result['errors']).to be_present
-        expect(result['errors'][0]['message']).to eq("You must be logged in to access this resource")
+        expect(result['errors'][0]['message']).to eq('You must be logged in to access this resource')
       end
     end
   end

@@ -13,6 +13,10 @@ mutation Login($email: String!, $password: String!) {
       name
       email
     }
+    errors {
+      message
+      path
+    }
   }
 }
 =end
@@ -22,6 +26,7 @@ module Mutations
     argument :email, String, required: true
     argument :password, String, required: true
 
+    field :errors, [Types::UserError], null: true
     field :token, String, null: true
     field :user, Types::UserType, null: true
 
@@ -35,13 +40,27 @@ module Mutations
 
           {
             token:,
-            user:
+            user:,
           }
         else
-          raise GraphQL::ExecutionError, "メールアドレスの認証が完了していません。\nメールをご確認ください。"
+          {
+            errors: [
+              {
+                message: "メールアドレスの認証が完了していません。\nメールをご確認ください。",
+                path: ["email"]
+              }
+            ]
+          }
         end
       else
-        raise GraphQL::ExecutionError, "メールアドレスまたはパスワードが正しくありません。"
+        {
+          errors: [
+            {
+              message: "メールアドレスまたはパスワードが正しくありません。",
+              path: ["email", "password"]
+            }
+          ]
+        }
       end
     end
   end

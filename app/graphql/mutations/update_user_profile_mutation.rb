@@ -13,6 +13,10 @@ mutation UpdateUserProfile($input: UpdateUserProfileMutationInput!) {
       }
     }
     message
+    errors {
+      message
+      path
+    }
   }
 }
 =end
@@ -21,8 +25,9 @@ module Mutations
   class UpdateUserProfileMutation < LoginRequiredMutation
     argument :user_profile_input, Types::UserProfileInputType, required: true
 
-    field :message, String, null: false
-    field :user, Types::UserType, null: false
+    field :errors, [Types::UserError], null: true
+    field :message, String, null: true
+    field :user, Types::UserType, null: true
 
     def resolve(user_profile_input:)
       user = context[:current_user]
@@ -33,20 +38,29 @@ module Mutations
         profile: user_profile_input.profile
       )
 
-      updated_user = service.call
+      begin
+        updated_user = service.call
 
-      {
-        user: updated_user,
-        message: "プロフィールが正常に更新されました。"
-      }
-    rescue ActiveRecord::RecordInvalid => e
-      raise GraphQL::ExecutionError.new(
-        "プロフィール更新に失敗しました。\n#{e.record.errors.full_messages.join("\n")}"
-      )
-    rescue StandardError => e
-      raise GraphQL::ExecutionError.new(
-        "予期せぬエラーが発生しました。\n#{e.message}"
-      )
+        {
+          user: updated_user,
+          message: "プロフィールが正常に更新されました。",
+        }
+      rescue ActiveRecord::RecordInvalid => e
+        user_errors = e.record.errors.map do |error|
+          {
+            message: error.full_message,
+            path: ["userProfileInput", error.attribute.to_s]
+          }
+        end
+
+        { errors: user_errors }
+      rescue StandardError => e
+        {
+          errors: [
+            { message: "予期せぬエラーが発生しました。#{e.message}" }
+          ]
+        }
+      end
     end
   end
 end
