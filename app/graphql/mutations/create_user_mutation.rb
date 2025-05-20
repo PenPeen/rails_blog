@@ -11,6 +11,10 @@ mutation CreateUser($userInput: UserInputType!) {
     }
     token
     message
+    errors {
+      message
+      path
+    }
   }
 }
 =end
@@ -19,9 +23,10 @@ module Mutations
   class CreateUserMutation < GraphQL::Schema::Mutation
     argument :user_input, Types::UserInputType, required: true
 
-    field :message, String, null: false
+    field :message, String, null: true
     field :token, String, null: true
     field :user, Types::UserType, null: true
+    field :errors, [Types::UserError], null: false
 
     def resolve(user_input:)
       service = UserRegistrationService.new(
@@ -35,20 +40,47 @@ module Mutations
         {
           user:,
           token: user.token.uuid,
-          message: "確認メールを送信しました。"
+          message: "確認メールを送信しました。",
+          errors: []
         }
       rescue UserAlreadyRegisteredError => e
-        raise GraphQL::ExecutionError.new(
-          "ユーザー登録に失敗しました。\n#{e.message}"
-        )
+        {
+          user: nil,
+          token: nil,
+          message: nil,
+          errors: [
+            {
+              message: "ユーザー登録に失敗しました。#{e.message}",
+              path: ["userInput", "email"]
+            }
+          ]
+        }
       rescue ActiveRecord::RecordInvalid => e
-        raise GraphQL::ExecutionError.new(
-          "ユーザー登録に失敗しました。\n#{e.record.errors.full_messages.join(', ')}"
-        )
+        user_errors = e.record.errors.map do |error|
+          {
+            message: error.full_message,
+            path: ["userInput", error.attribute.to_s]
+          }
+        end
+
+        {
+          user: nil,
+          token: nil,
+          message: nil,
+          errors: user_errors
+        }
       rescue StandardError => e
-        raise GraphQL::ExecutionError.new(
-          "予期せぬエラーが発生しました。\n#{e.message}"
-        )
+        {
+          user: nil,
+          token: nil,
+          message: nil,
+          errors: [
+            {
+              message: "予期せぬエラーが発生しました。#{e.message}",
+              path: []
+            }
+          ]
+        }
       end
     end
   end

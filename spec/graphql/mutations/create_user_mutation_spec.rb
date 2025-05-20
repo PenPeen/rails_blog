@@ -15,6 +15,10 @@ RSpec.describe 'CreateUser Mutation', type: :request do
             }
             token
             message
+            errors {
+              message
+              path
+            }
           }
         }
       GRAPHQL
@@ -43,6 +47,7 @@ RSpec.describe 'CreateUser Mutation', type: :request do
           expect(data['user']['email']).to eq(email)
           expect(data['token']).to be_present
           expect(data['message']).to eq('確認メールを送信しました。')
+          expect(data['errors']).to be_empty
 
           user = User.find_by(email:)
           expect(user).to be_present
@@ -63,9 +68,13 @@ RSpec.describe 'CreateUser Mutation', type: :request do
 
       it 'エラーレスポンスを返すこと' do
         expect {
-          expect(result['errors']).to be_present
-          expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')
-          expect(result['errors'][0]['message']).to include('入力されたメールアドレスは登録済みです')
+          expect(data['user']).to be_nil
+          expect(data['token']).to be_nil
+          expect(data['message']).to be_nil
+          expect(data['errors']).to be_present
+          expect(data['errors'][0]['message']).to include('ユーザー登録に失敗しました')
+          expect(data['errors'][0]['message']).to include('入力されたメールアドレスは登録済みです')
+          expect(data['errors'][0]['path']).to eq(['userInput', 'email'])
         }.to not_change(User, :count)
           .and not_change(Token, :count)
           .and not_enqueue_job(UserMailerJob)
@@ -77,8 +86,11 @@ RSpec.describe 'CreateUser Mutation', type: :request do
 
       it 'エラーレスポンスを返すこと' do
         expect {
-          expect(result['errors']).to be_present
-          expect(result['errors'][0]['message']).to include('ユーザー登録に失敗しました')
+          expect(data['user']).to be_nil
+          expect(data['token']).to be_nil
+          expect(data['message']).to be_nil
+          expect(data['errors']).to be_present
+          expect(data['errors'][0]['message']).to include('メールアドレスを入力してください')
         }.to not_change(User, :count)
           .and not_change(Token, :count)
           .and not_enqueue_job(UserMailerJob)

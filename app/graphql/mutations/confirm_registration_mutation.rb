@@ -5,6 +5,11 @@
 mutation ConfirmRegistration($token: String!) {
   confirmRegistration(token: $token) {
     success
+    token
+    errors {
+      message
+      path
+    }
   }
 }
 =end
@@ -13,8 +18,9 @@ module Mutations
   class ConfirmRegistrationMutation < BaseMutation
     argument :token, String, required: true
 
-    field :success, Boolean, null: false
+    field :success, Boolean, null: true
     field :token, String, null: true
+    field :errors, [Types::UserError], null: false
 
     def resolve(token:)
       service = UserConfirmationService.new(token:)
@@ -23,12 +29,53 @@ module Mutations
         session = service.call
         {
           success: true,
-          token: session.key
+          token: session.key,
+          errors: []
         }
-      rescue TokenNotFoundError, TokenExpiredError, UserAlreadyConfirmedError => e
-        raise GraphQL::ExecutionError.new(e.message)
+      rescue TokenNotFoundError => e
+        {
+          success: false,
+          token: nil,
+          errors: [
+            {
+              message: e.message,
+              path: ["token"]
+            }
+          ]
+        }
+      rescue TokenExpiredError => e
+        {
+          success: false,
+          token: nil,
+          errors: [
+            {
+              message: e.message,
+              path: ["token"]
+            }
+          ]
+        }
+      rescue UserAlreadyConfirmedError => e
+        {
+          success: false,
+          token: nil,
+          errors: [
+            {
+              message: e.message,
+              path: ["token"]
+            }
+          ]
+        }
       rescue StandardError => e
-        raise GraphQL::ExecutionError.new("原因不明なエラーが発生しました。しばらく経ってから再度お試しください。")
+        {
+          success: false,
+          token: nil,
+          errors: [
+            {
+              message: "原因不明なエラーが発生しました。しばらく経ってから再度お試しください。",
+              path: []
+            }
+          ]
+        }
       end
     end
   end

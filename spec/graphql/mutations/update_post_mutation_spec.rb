@@ -15,6 +15,10 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
               published
             }
             message
+            errors {
+              message
+              path
+            }
           }
         }
       GRAPHQL
@@ -48,18 +52,18 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
       )
     end
 
+    let(:data) { result['data'] && result['data']['updatePost'] }
     let(:current_user) { user }
 
     context '正常なパラメータの場合' do
       it '投稿を更新し、成功レスポンスを返すこと' do
-        data = result['data']['updatePost']
-
         expect(data['post']).to be_present
         expect(data['post']['id']).to eq(post_id.to_s)
         expect(data['post']['title']).to eq(title)
         expect(data['post']['content']).to eq(content)
         expect(data['post']['published']).to eq(published)
         expect(data['message']).to eq('更新が完了しました。')
+        expect(data['errors']).to be_empty
 
         post_record.reload
         expect(post_record.title).to eq(title)
@@ -72,10 +76,11 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
       let(:title) { '' }
 
       it 'エラーレスポンスを返すこと' do
-        expect(result['errors']).to be_present
-        error_message = result['errors'][0]['message']
-        expect(error_message).to include('更新に失敗しました')
-        expect(error_message).to include('タイトルを入力してください')
+        expect(data['post']).to be_nil
+        expect(data['message']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to include('タイトル')
+        expect(data['errors'][0]['path']).to eq(['postInput', 'title'])
       end
     end
 
@@ -83,10 +88,11 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
       let(:post_id) { 9999 }
 
       it 'エラーレスポンスを返すこと' do
-        expect(result['errors']).to be_present
-        error_message = result['errors'][0]['message']
-        expect(error_message).to include('更新に失敗しました')
-        expect(error_message).to include('投稿が見つかりません')
+        expect(data['post']).to be_nil
+        expect(data['message']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to eq('投稿が見つかりません。')
+        expect(data['errors'][0]['path']).to eq(['postInput', 'id'])
       end
     end
 
@@ -94,8 +100,12 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
       let(:current_user) { nil }
 
       it 'エラーレスポンスを返すこと' do
-        expect(result['errors']).to be_present
-        expect(result['errors'][0]['message']).to eq('You must be logged in to access this resource')
+        expect(data).not_to be_nil
+        expect(data['post']).to be_nil
+        expect(data['message']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to eq('ログインが必要です')
+        expect(data['errors'][0]['path']).to eq([])
       end
     end
   end
