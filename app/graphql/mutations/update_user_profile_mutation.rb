@@ -27,7 +27,7 @@ module Mutations
 
     field :message, String, null: true
     field :user, Types::UserType, null: true
-    field :errors, [Types::UserError], null: false
+    field :errors, [Types::UserError], null: true
 
     def resolve(user_profile_input:)
       user = context[:current_user]
@@ -44,7 +44,6 @@ module Mutations
         {
           user: updated_user,
           message: "プロフィールが正常に更新されました。",
-          errors: []
         }
       rescue ActiveRecord::RecordInvalid => e
         user_errors = e.record.errors.map do |error|
@@ -54,20 +53,11 @@ module Mutations
           }
         end
 
-        {
-          user: nil,
-          message: nil,
-          errors: user_errors
-        }
+        { errors: user_errors }
       rescue StandardError => e
         {
-          user: nil,
-          message: nil,
           errors: [
-            {
-              message: "予期せぬエラーが発生しました。#{e.message}",
-              path: []
-            }
+            { message: "予期せぬエラーが発生しました。#{e.message}" }
           ]
         }
       end

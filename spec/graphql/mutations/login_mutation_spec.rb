@@ -46,7 +46,6 @@ RSpec.describe 'Login Mutation', type: :request do
         expect(data['user']['id']).to eq(user.id.to_s)
         expect(data['user']['name']).to eq(user.name)
         expect(data['user']['email']).to eq(user.email)
-        expect(data['errors']).to be_empty
       end
 
       it 'セッションが作成されること' do

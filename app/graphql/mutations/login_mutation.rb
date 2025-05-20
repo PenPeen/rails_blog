@@ -28,7 +28,7 @@ module Mutations
 
     field :token, String, null: true
     field :user, Types::UserType, null: true
-    field :errors, [Types::UserError], null: false
+    field :errors, [Types::UserError], null: true
 
     def resolve(email:, password:)
       user = User.find_by(email:)
@@ -41,12 +41,9 @@ module Mutations
           {
             token:,
             user:,
-            errors: []
           }
         else
           {
-            token: nil,
-            user: nil,
             errors: [
               {
                 message: "メールアドレスの認証が完了していません。\nメールをご確認ください。",
@@ -57,8 +54,6 @@ module Mutations
         end
       else
         {
-          token: nil,
-          user: nil,
           errors: [
             {
               message: "メールアドレスまたはパスワードが正しくありません。",

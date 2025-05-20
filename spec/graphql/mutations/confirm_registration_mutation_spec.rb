@@ -58,7 +58,6 @@ RSpec.describe 'ConfirmRegistration Mutation', type: :request do
         expect(data['token']).to be_nil
         expect(data['errors']).to be_present
         expect(data['errors'][0]['message']).to eq("無効なトークンです。")
-        expect(data['errors'][0]['path']).to eq(["token"])
       end
     end
 
@@ -72,7 +71,6 @@ RSpec.describe 'ConfirmRegistration Mutation', type: :request do
         expect(data['token']).to be_nil
         expect(data['errors']).to be_present
         expect(data['errors'][0]['message']).to eq("トークンの有効期限が切れています。再度会員登録を実施してください。")
-        expect(data['errors'][0]['path']).to eq(["token"])
       end
     end
 
@@ -86,7 +84,6 @@ RSpec.describe 'ConfirmRegistration Mutation', type: :request do
         expect(data['token']).to be_nil
         expect(data['errors']).to be_present
         expect(data['errors'][0]['message']).to eq("既に登録済みのユーザーです。ログインしてください。")
-        expect(data['errors'][0]['path']).to eq(["token"])
       end
     end
 
@@ -100,7 +97,6 @@ RSpec.describe 'ConfirmRegistration Mutation', type: :request do
         expect(data['token']).to be_nil
         expect(data['errors']).to be_present
         expect(data['errors'][0]['message']).to eq("原因不明なエラーが発生しました。しばらく経ってから再度お試しください。")
-        expect(data['errors'][0]['path']).to be_empty
       end
     end
   end

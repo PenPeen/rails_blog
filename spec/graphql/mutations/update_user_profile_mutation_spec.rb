@@ -51,7 +51,7 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
         expect(data['user']).to be_present
         expect(data['user']['name']).to eq(name)
         expect(data['message']).to eq('プロフィールが正常に更新されました。')
-        expect(data['errors']).to be_empty
+        expect(data['errors']).to be_nil
 
         user.reload
         expect(user.name).to eq(name)
@@ -64,7 +64,7 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
           expect(data['user']).to be_present
           expect(data['user']['name']).to eq(name)
           expect(data['message']).to eq('プロフィールが正常に更新されました。')
-          expect(data['errors']).to be_empty
+          expect(data['errors']).to be_nil
 
           user.reload
           expect(user.name).to eq(name)
@@ -107,13 +107,10 @@ RSpec.describe 'UpdateUserProfile Mutation', type: :request do
     context '未認証の場合' do
       let(:current_user) { nil }
 
-      it 'エラーレスポンスを返すこと' do
-        expect(data).not_to be_nil
-        expect(data['user']).to be_nil
-        expect(data['message']).to be_nil
-        expect(data['errors']).to be_present
-        expect(data['errors'][0]['message']).to eq('ログインが必要です')
-        expect(data['errors'][0]['path']).to eq([])
+      it 'ログインエラーを返すこと' do
+        expect(data).to be_nil
+        expect(result['errors']).to be_present
+        expect(result['errors'][0]['message']).to eq('You must be logged in to access this resource')
       end
     end
   end

@@ -26,14 +26,10 @@ module Mutations
     field :message, String, null: true
     field :token, String, null: true
     field :user, Types::UserType, null: true
-    field :errors, [Types::UserError], null: false
+    field :errors, [Types::UserError], null: true
 
     def resolve(user_input:)
-      service = UserRegistrationService.new(
-        email: user_input.email,
-        name: user_input.name,
-        password: user_input.password
-      )
+      service = UserRegistrationService.new(**user_input.to_h)
 
       begin
         user = service.call
@@ -41,13 +37,9 @@ module Mutations
           user:,
           token: user.token.uuid,
           message: "確認メールを送信しました。",
-          errors: []
         }
       rescue UserAlreadyRegisteredError => e
         {
-          user: nil,
-          token: nil,
-          message: nil,
           errors: [
             {
               message: "ユーザー登録に失敗しました。#{e.message}",
@@ -63,22 +55,11 @@ module Mutations
           }
         end
 
-        {
-          user: nil,
-          token: nil,
-          message: nil,
-          errors: user_errors
-        }
+        { errors: user_errors }
       rescue StandardError => e
         {
-          user: nil,
-          token: nil,
-          message: nil,
           errors: [
-            {
-              message: "予期せぬエラーが発生しました。#{e.message}",
-              path: []
-            }
+            { message: "予期せぬエラーが発生しました。#{e.message}" }
           ]
         }
       end

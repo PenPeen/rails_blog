@@ -20,7 +20,7 @@ module Mutations
 
     field :success, Boolean, null: true
     field :token, String, null: true
-    field :errors, [Types::UserError], null: false
+    field :errors, [Types::UserError], null: true
 
     def resolve(token:)
       service = UserConfirmationService.new(token:)
@@ -32,37 +32,12 @@ module Mutations
           token: session.key,
           errors: []
         }
-      rescue TokenNotFoundError => e
+      rescue TokenNotFoundError, TokenExpiredError, UserAlreadyConfirmedError => e
         {
           success: false,
           token: nil,
           errors: [
-            {
-              message: e.message,
-              path: ["token"]
-            }
-          ]
-        }
-      rescue TokenExpiredError => e
-        {
-          success: false,
-          token: nil,
-          errors: [
-            {
-              message: e.message,
-              path: ["token"]
-            }
-          ]
-        }
-      rescue UserAlreadyConfirmedError => e
-        {
-          success: false,
-          token: nil,
-          errors: [
-            {
-              message: e.message,
-              path: ["token"]
-            }
+            { message: e.message }
           ]
         }
       rescue StandardError => e
@@ -70,10 +45,7 @@ module Mutations
           success: false,
           token: nil,
           errors: [
-            {
-              message: "原因不明なエラーが発生しました。しばらく経ってから再度お試しください。",
-              path: []
-            }
+            { message: "原因不明なエラーが発生しました。しばらく経ってから再度お試しください。" }
           ]
         }
       end

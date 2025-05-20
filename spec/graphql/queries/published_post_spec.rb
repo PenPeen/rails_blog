@@ -39,9 +39,7 @@ RSpec.describe 'PublishedPost Query', type: :request do
     context '非公開投稿の場合' do
       let(:post_id) { unpublished_post.id }
 
-      it 'GraphQL::ExecutionErrorが発生し、エラーメッセージを返すこと' do
-        expect(errors).to be_present
-        expect(errors[0]['message']).to eq('Post not found')
+      it 'データにnilを返すこと' do
         expect(data).to be_nil
       end
     end

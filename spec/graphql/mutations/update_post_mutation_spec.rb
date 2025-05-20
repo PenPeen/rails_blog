@@ -63,7 +63,7 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
         expect(data['post']['content']).to eq(content)
         expect(data['post']['published']).to eq(published)
         expect(data['message']).to eq('更新が完了しました。')
-        expect(data['errors']).to be_empty
+        expect(data['errors']).to be_nil
 
         post_record.reload
         expect(post_record.title).to eq(title)
@@ -99,13 +99,10 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
     context '未認証の場合' do
       let(:current_user) { nil }
 
-      it 'エラーレスポンスを返すこと' do
-        expect(data).not_to be_nil
-        expect(data['post']).to be_nil
-        expect(data['message']).to be_nil
-        expect(data['errors']).to be_present
-        expect(data['errors'][0]['message']).to eq('ログインが必要です')
-        expect(data['errors'][0]['path']).to eq([])
+      it 'ログインエラーを返すこと' do
+        expect(data).to be_nil
+        expect(result['errors']).to be_present
+        expect(result['errors'][0]['message']).to eq('You must be logged in to access this resource')
       end
     end
   end

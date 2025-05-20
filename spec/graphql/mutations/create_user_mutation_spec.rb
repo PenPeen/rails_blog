@@ -47,7 +47,6 @@ RSpec.describe 'CreateUser Mutation', type: :request do
           expect(data['user']['email']).to eq(email)
           expect(data['token']).to be_present
           expect(data['message']).to eq('確認メールを送信しました。')
-          expect(data['errors']).to be_empty
 
           user = User.find_by(email:)
           expect(user).to be_present
