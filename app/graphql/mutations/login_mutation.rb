@@ -26,9 +26,9 @@ module Mutations
     argument :email, String, required: true
     argument :password, String, required: true
 
+    field :errors, [Types::UserError], null: true
     field :token, String, null: true
     field :user, Types::UserType, null: true
-    field :errors, [Types::UserError], null: true
 
     def resolve(email:, password:)
       user = User.find_by(email:)

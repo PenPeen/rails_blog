@@ -23,9 +23,9 @@ module Mutations
   class UpdatePostMutation < LoginRequiredMutation
     argument :post_input, Types::PostInputType, required: true
 
+    field :errors, [Types::UserError], null: true
     field :message, String, null: true
     field :post, Types::PostType, null: true
-    field :errors, [Types::UserError], null: true
 
     def resolve(post_input:)
       begin

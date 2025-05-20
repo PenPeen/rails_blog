@@ -25,9 +25,9 @@ module Mutations
   class UpdateUserProfileMutation < LoginRequiredMutation
     argument :user_profile_input, Types::UserProfileInputType, required: true
 
+    field :errors, [Types::UserError], null: true
     field :message, String, null: true
     field :user, Types::UserType, null: true
-    field :errors, [Types::UserError], null: true
 
     def resolve(user_profile_input:)
       user = context[:current_user]

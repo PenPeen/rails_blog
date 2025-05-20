@@ -18,9 +18,9 @@ module Mutations
   class ConfirmRegistrationMutation < BaseMutation
     argument :token, String, required: true
 
+    field :errors, [Types::UserError], null: true
     field :success, Boolean, null: true
     field :token, String, null: true
-    field :errors, [Types::UserError], null: true
 
     def resolve(token:)
       service = UserConfirmationService.new(token:)

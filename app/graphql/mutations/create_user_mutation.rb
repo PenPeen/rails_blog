@@ -23,10 +23,10 @@ module Mutations
   class CreateUserMutation < GraphQL::Schema::Mutation
     argument :user_input, Types::UserInputType, required: true
 
+    field :errors, [Types::UserError], null: true
     field :message, String, null: true
     field :token, String, null: true
     field :user, Types::UserType, null: true
-    field :errors, [Types::UserError], null: true
 
     def resolve(user_input:)
       service = UserRegistrationService.new(**user_input.to_h)
