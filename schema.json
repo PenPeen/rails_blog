@@ -702,7 +702,7 @@
           "inputFields": [
             {
               "name": "content",
-              "description": null,
+              "description": "記事内容",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -718,7 +718,7 @@
             },
             {
               "name": "id",
-              "description": null,
+              "description": "記事ID",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -734,7 +734,7 @@
             },
             {
               "name": "published",
-              "description": null,
+              "description": "公開状態",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -749,8 +749,20 @@
               "deprecationReason": null
             },
             {
+              "name": "thumbnail",
+              "description": "Base64エンコードされたサムネイル画像",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "title",
-              "description": null,
+              "description": "記事タイトル",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -759,18 +771,6 @@
                   "name": "String",
                   "ofType": null
                 }
-              },
-              "defaultValue": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "thumbnail",
-              "description": "Base64エンコードされたサムネイル画像",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "defaultValue": null,
               "isDeprecated": false,
