@@ -13,6 +13,7 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
               title
               content
               published
+              thumbnailUrl
             }
             message
             errors {
@@ -30,6 +31,7 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
     let(:title) { '更新後のタイトル' }
     let(:content) { '更新後の内容です。' }
     let(:published) { false }
+    let(:thumbnail) { nil }
 
     let(:variables) do
       {
@@ -38,7 +40,8 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
             id: post_id.to_s,
             title:,
             content:,
-            published:
+            published:,
+            thumbnail:
           }
         }
       }
@@ -70,6 +73,26 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
         expect(post_record.content).to eq(content)
         expect(post_record.published).to eq(published)
       end
+
+      context 'サムネイル画像も更新する場合' do
+        let(:thumbnail) { 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' }
+
+        it 'サムネイル画像も更新されること' do
+          expect(data['post']).to be_present
+          expect(data['post']['title']).to eq(title)
+          expect(data['post']['content']).to eq(content)
+          expect(data['post']['published']).to eq(published)
+          expect(data['post']['thumbnailUrl']).to be_present
+          expect(data['message']).to eq('更新が完了しました。')
+          expect(data['errors']).to be_nil
+
+          post_record.reload
+          expect(post_record.title).to eq(title)
+          expect(post_record.content).to eq(content)
+          expect(post_record.published).to eq(published)
+          expect(post_record.thumbnail).to be_attached
+        end
+      end
     end
 
     context 'バリデーションエラーの場合' do
@@ -81,6 +104,22 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
         expect(data['errors']).to be_present
         expect(data['errors'][0]['message']).to include('タイトル')
         expect(data['errors'][0]['path']).to eq(['postInput', 'title'])
+      end
+    end
+
+    context 'ファイルサイズが大きすぎる場合' do
+      let(:thumbnail) { 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' }
+
+      before do
+        stub_const("PostUpdateService::MAX_FILE_SIZE", 1.byte)
+      end
+
+      it 'ファイルサイズのエラーを返すこと' do
+        expect(data['post']).to be_nil
+        expect(data['message']).to be_nil
+        expect(data['errors']).to be_present
+        expect(data['errors'][0]['message']).to include('ファイルサイズは2MB以下にしてください')
+        expect(data['errors'][0]['path']).to eq(['postInput', 'thumbnail'])
       end
     end
 
