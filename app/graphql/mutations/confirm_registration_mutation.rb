@@ -30,7 +30,6 @@ module Mutations
         {
           success: true,
           token: session.key,
-          errors: []
         }
       rescue TokenNotFoundError, TokenExpiredError, UserAlreadyConfirmedError => e
         {
