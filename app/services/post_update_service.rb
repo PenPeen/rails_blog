@@ -1,0 +1,75 @@
+# frozen_string_literal: true
+
+class PostUpdateService
+  MAX_FILE_SIZE = 2.megabytes
+
+  attr_reader :post, :attributes, :thumbnail
+
+  def initialize(post:, attributes:, thumbnail: nil)
+    @post = post
+    @attributes = attributes
+    @thumbnail = thumbnail
+  end
+
+  def call
+    ActiveRecord::Base.transaction do
+      update_post
+      update_thumbnail if thumbnail.present?
+      post
+    end
+  end
+
+  private
+
+    def update_post
+      post.update!(attributes)
+    end
+
+    def update_thumbnail
+      decoded_file = decode_base64_image(thumbnail)
+      validate_file_size(decoded_file) if decoded_file.is_a?(Hash) && decoded_file[:io].respond_to?(:size)
+
+      post.thumbnail.attach(decoded_file)
+    end
+
+    def validate_file_size(file_data)
+      file_size = file_data[:io].size
+      if file_size > MAX_FILE_SIZE
+        file_data[:io].close if file_data[:io].respond_to?(:close)
+
+        post.errors.add(:thumbnail, "ファイルサイズは2MB以下にしてください")
+        raise ActiveRecord::RecordInvalid.new(post)
+      end
+    end
+
+    def decode_base64_image(base64_string)
+      return base64_string unless base64_string.is_a?(String) && base64_string.start_with?('data:')
+
+      match_data = base64_string.match(/\Adata:(.*?);base64,(.+)\z/)
+      return base64_string unless match_data
+
+      content_type = match_data[1]
+      encoded_data = match_data[2]
+      decoded_data = Base64.decode64(encoded_data)
+
+      extension = mime_type_to_extension(content_type)
+      create_tempfile_with_data(decoded_data, extension, content_type)
+    end
+
+    def mime_type_to_extension(content_type)
+      content_type.split('/').last
+    end
+
+    def create_tempfile_with_data(decoded_data, extension, content_type)
+      temp_file = Tempfile.new(['thumbnail', ".#{extension}"])
+      temp_file.binmode
+      temp_file.write(decoded_data)
+      temp_file.rewind
+
+      {
+        io: temp_file,
+        filename: "thumbnail.#{extension}",
+        content_type: content_type
+      }
+    end
+end

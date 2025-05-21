@@ -763,6 +763,18 @@
               "defaultValue": null,
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "thumbnail",
+              "description": "Base64エンコードされたサムネイル画像",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null,
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "interfaces": null,

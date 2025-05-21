@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 # The test environment is used exclusively to run your application's
@@ -61,4 +63,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # デフォルトのホスト設定
+  Rails.application.routes.default_url_options[:host] = 'localhost:5001'
+  config.action_mailer.default_url_options = { host: 'localhost:5001' }
 end

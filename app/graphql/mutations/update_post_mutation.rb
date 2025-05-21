@@ -9,6 +9,7 @@ mutation UpdatePost($input: UpdatePostMutationInput!) {
       title
       content
       published
+      thumbnailUrl
     }
     message
     errors {
@@ -31,13 +32,22 @@ module Mutations
       begin
         post = find_post(post_input.id)
 
-        if post.update(post_input.to_h)
+        # サービスクラスを使用して投稿を更新
+        service = PostUpdateService.new(
+          post: post,
+          attributes: post_input.to_h.except(:id, :thumbnail),
+          thumbnail: post_input.thumbnail
+        )
+
+        begin
+          updated_post = service.call
+
           {
-            post:,
+            post: updated_post,
             message: "更新が完了しました。",
           }
-        else
-          post_errors = post.errors.map do |error|
+        rescue ActiveRecord::RecordInvalid => e
+          post_errors = e.record.errors.map do |error|
             {
               message: error.full_message,
               path: ["postInput", error.attribute.to_s]
