@@ -44,7 +44,7 @@ RSpec.describe 'ConfirmRegistration Mutation', type: :request do
       it '成功レスポンスを返すこと' do
         expect(data['success']).to eq(true)
         expect(data['token']).to eq('session_key')
-        expect(data['errors']).to be_empty
+        expect(data['errors']).to be_nil
       end
     end
 
