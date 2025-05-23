@@ -6,6 +6,7 @@ module Types
     field :logout, mutation: Mutations::LogoutMutation
 
     field :confirm_registration, mutation: Mutations::ConfirmRegistrationMutation
+    field :create_post, mutation: Mutations::CreatePostMutation
     field :create_user, mutation: Mutations::CreateUserMutation
 
     field :update_post, mutation: Mutations::UpdatePostMutation
