@@ -3,6 +3,8 @@
 class PostCreationService
   MAX_FILE_SIZE = 2.megabytes
 
+  Result = Struct.new(:post, :message, :errors, keyword_init: true)
+
   attr_reader :user, :attributes, :thumbnail
 
   def initialize(user:, attributes:, thumbnail: nil)
@@ -12,10 +14,35 @@ class PostCreationService
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      create_post
-      update_thumbnail if thumbnail.present?
-      post
+    begin
+      created_post = ActiveRecord::Base.transaction do
+        create_post
+        update_thumbnail if thumbnail.present?
+        post
+      end
+
+      Result.new(
+        post: created_post,
+        message: "投稿が完了しました。",
+        errors: nil
+      )
+    rescue ActiveRecord::RecordInvalid => e
+      post_errors = e.record.errors.map do |error|
+        {
+          message: error.full_message,
+          path: ["postInput", error.attribute.to_s]
+        }
+      end
+
+      Result.new(post: nil, message: nil, errors: post_errors)
+    rescue => e
+      Result.new(
+        post: nil,
+        message: nil,
+        errors: [
+          { message: "投稿に失敗しました。#{e.message}" }
+        ]
+      )
     end
   end
 

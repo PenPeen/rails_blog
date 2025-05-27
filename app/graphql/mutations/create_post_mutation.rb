@@ -29,37 +29,17 @@ module Mutations
     field :post, Types::PostType, null: true
 
     def resolve(post_input:)
-      begin
-        service = PostCreationService.new(
-          user: context[:current_user],
-          attributes: post_input.to_h.except(:thumbnail),
-          thumbnail: post_input.thumbnail
-        )
+      result = PostCreationService.new(
+        user: context[:current_user],
+        attributes: post_input.to_h.except(:thumbnail),
+        thumbnail: post_input.thumbnail
+      ).call
 
-        begin
-          created_post = service.call
-
-          {
-            post: created_post,
-            message: "投稿が完了しました。",
-          }
-        rescue ActiveRecord::RecordInvalid => e
-          post_errors = e.record.errors.map do |error|
-            {
-              message: error.full_message,
-              path: ["postInput", error.attribute.to_s]
-            }
-          end
-
-          { errors: post_errors }
-        end
-      rescue => e
-        {
-          errors: [
-            { message: "投稿に失敗しました。#{e.message}" }
-          ]
-        }
-      end
+      {
+        post: result.post,
+        message: result.message,
+        errors: result.errors
+      }
     end
   end
 end
