@@ -30,37 +30,19 @@ module Mutations
     field :user, Types::UserType, null: true
 
     def resolve(user_profile_input:)
-      user = context[:current_user]
-
       service = UserProfileService.new(
-        user: user,
+        user: context[:current_user],
         name: user_profile_input.name,
         profile: user_profile_input.profile
       )
 
-      begin
-        updated_user = service.call
+      result = service.call
 
-        {
-          user: updated_user,
-          message: "プロフィールが正常に更新されました。",
-        }
-      rescue ActiveRecord::RecordInvalid => e
-        user_errors = e.record.errors.map do |error|
-          {
-            message: error.full_message,
-            path: ["userProfileInput", error.attribute.to_s]
-          }
-        end
-
-        { errors: user_errors }
-      rescue StandardError => e
-        {
-          errors: [
-            { message: "予期せぬエラーが発生しました。#{e.message}" }
-          ]
-        }
-      end
+      {
+        user: result.user,
+        message: result.message,
+        errors: result.errors
+      }
     end
   end
 end

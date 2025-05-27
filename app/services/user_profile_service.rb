@@ -3,6 +3,8 @@
 class UserProfileService
   MAX_FILE_SIZE = 2.megabytes
 
+  Result = Struct.new(:user, :message, :errors, keyword_init: true)
+
   attr_reader :user, :name, :profile
 
   def initialize(user:, name:, profile: nil)
@@ -12,10 +14,35 @@ class UserProfileService
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      update_user_name
-      update_profile_image if profile.present?
-      user
+    begin
+      updated_user = ActiveRecord::Base.transaction do
+        update_user_name
+        update_profile_image if profile.present?
+        user
+      end
+
+      Result.new(
+        user: updated_user,
+        message: "プロフィールが正常に更新されました。",
+        errors: nil
+      )
+    rescue ActiveRecord::RecordInvalid => e
+      user_errors = e.record.errors.map do |error|
+        {
+          message: error.full_message,
+          path: ["userProfileInput", error.attribute.to_s]
+        }
+      end
+
+      Result.new(user: nil, message: nil, errors: user_errors)
+    rescue StandardError => e
+      Result.new(
+        user: nil,
+        message: nil,
+        errors: [
+          { message: "予期せぬエラーが発生しました。#{e.message}" }
+        ]
+      )
     end
   end
 
