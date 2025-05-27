@@ -22,11 +22,22 @@ mutation CreatePost($input: CreatePostMutationInput!) {
 
 module Mutations
   class CreatePostMutation < LoginRequiredMutation
-    argument :post_input, Types::CreatePostInputType, required: true
+    description '投稿作成'
 
-    field :errors, [Types::UserError], null: true
-    field :message, String, null: true
-    field :post, Types::PostType, null: true
+    argument :post_input, Types::CreatePostInputType,
+      required: true,
+      description: '入力値'
+
+    field :errors, [Types::UserError], null: true,
+      description: 'エラー情報'
+
+    field :message, String,
+      null: true,
+      description: 'メッセージ'
+
+    field :post, Types::PostType,
+      null: true,
+      description: '作成された投稿'
 
     def resolve(post_input:)
       result = CreatePostService.new(

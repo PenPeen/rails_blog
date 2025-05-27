@@ -5,8 +5,16 @@ module Types
     graphql_name "UserInputType"
     description "Attributes for creating a user"
 
-    argument :email, String, required: true
-    argument :name, String, required: true
-    argument :password, String, required: true
+    argument :email, String,
+      required: true,
+      description: 'メールアドレス'
+
+    argument :name, String,
+      required: true,
+      description: '名前'
+
+    argument :password, String,
+      required: true,
+      description: 'パスワード'
   end
 end

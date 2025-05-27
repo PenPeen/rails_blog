@@ -16,11 +16,23 @@ mutation ConfirmRegistration($token: String!) {
 
 module Mutations
   class ConfirmRegistrationMutation < BaseMutation
-    argument :token, String, required: true
+    description 'ユーザー登録確認'
 
-    field :errors, [Types::UserError], null: true
-    field :success, Boolean, null: true
-    field :token, String, null: true
+    argument :token, String,
+      required: true,
+      description: 'トークン'
+
+    field :errors, [Types::UserError],
+      null: true,
+      description: 'エラー情報'
+
+    field :success, Boolean,
+      null: true,
+      description: '成功フラグ'
+
+    field :token, String,
+      null: true,
+      description: 'トークン'
 
     def resolve(token:)
       service = UserConfirmationService.new(token:)

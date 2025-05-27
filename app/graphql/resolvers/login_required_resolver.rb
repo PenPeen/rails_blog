@@ -2,6 +2,8 @@
 
 module Resolvers
   class LoginRequiredResolver < GraphQL::Schema::Resolver
+    description 'ログインが必要なリソースアクセスに対する認可チェック'
+
     def authorized?(args)
       if context[:current_user]
         true

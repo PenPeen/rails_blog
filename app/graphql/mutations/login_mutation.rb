@@ -23,12 +23,27 @@ mutation Login($email: String!, $password: String!) {
 
 module Mutations
   class LoginMutation < GraphQL::Schema::Mutation
-    argument :email, String, required: true
-    argument :password, String, required: true
+    description 'ログイン処理'
 
-    field :errors, [Types::UserError], null: true
-    field :token, String, null: true
-    field :user, Types::UserType, null: true
+    argument :email, String,
+      required: true,
+      description: 'メールアドレス'
+
+    argument :password, String,
+      required: true,
+      description: 'パスワード'
+
+    field :errors, [Types::UserError],
+      null: true,
+      description: 'エラー情報'
+
+    field :token, String,
+      null: true,
+      description: 'トークン'
+
+    field :user, Types::UserType,
+      null: true,
+      description: 'ユーザー情報'
 
     def resolve(email:, password:)
       result = LoginService.new(

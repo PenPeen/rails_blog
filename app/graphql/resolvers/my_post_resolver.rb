@@ -19,7 +19,9 @@ module Resolvers
     type Types::PostType, null: true
     description "Fetches a post created by the current user"
 
-    argument :id, ID, required: true
+    argument :id, ID,
+      required: true,
+      description: '投稿ID'
 
     def resolve(id:)
       current_user = context[:current_user]

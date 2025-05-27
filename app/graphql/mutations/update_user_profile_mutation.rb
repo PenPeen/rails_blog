@@ -23,11 +23,24 @@ mutation UpdateUserProfile($input: UpdateUserProfileMutationInput!) {
 
 module Mutations
   class UpdateUserProfileMutation < LoginRequiredMutation
-    argument :user_profile_input, Types::UserProfileInputType, required: true
+    description 'ユーザープロフィール更新'
 
-    field :errors, [Types::UserError], null: true
-    field :message, String, null: true
-    field :user, Types::UserType, null: true
+    argument :user_profile_input, Types::UserProfileInputType,
+      required: true,
+      description: 'ユーザープロフィール情報'
+
+    field :errors,
+      [Types::UserError],
+      null: true,
+      description: 'エラー情報'
+
+    field :message, String,
+      null: true,
+      description: 'メッセージ'
+
+    field :user, Types::UserType,
+      null: true,
+      description: '更新されたユーザー'
 
     def resolve(user_profile_input:)
       service = UserProfileService.new(

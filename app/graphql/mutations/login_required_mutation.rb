@@ -2,6 +2,8 @@
 
 module Mutations
   class LoginRequiredMutation < BaseMutation
+    description 'ログインが必要なミューテーションに対する認可チェック'
+
     def authorized?(args)
       if context[:current_user]
         true

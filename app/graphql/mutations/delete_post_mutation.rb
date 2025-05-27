@@ -21,12 +21,27 @@ mutation DeletePost($input: DeletePostInputType!) {
 
 module Mutations
   class DeletePostMutation < LoginRequiredMutation
-    argument :id, ID, required: true
+    description '投稿削除'
 
-    field :errors, [Types::UserError], null: true
-    field :message, String, null: true
-    field :post, Types::PostType, null: true
-    field :success, Boolean, null: true
+    argument :id, ID,
+      required: true,
+      description: '投稿ID'
+
+    field :errors, [Types::UserError],
+      null: true,
+      description: 'エラー情報'
+
+    field :message, String,
+      null: true,
+      description: 'メッセージ'
+
+    field :post, Types::PostType,
+      null: true,
+      description: '投稿情報'
+
+    field :success, Boolean,
+      null: true,
+      description: '成功フラグ'
 
     def resolve(id:)
       result = DeletePostService.new(

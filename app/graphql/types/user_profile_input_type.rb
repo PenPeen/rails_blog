@@ -5,7 +5,12 @@ module Types
     graphql_name "UserProfileInputType"
     description "Attributes for updating a user profile"
 
-    argument :name, String, required: true
-    argument :profile, String, required: false, description: "Base64エンコードされたプロフィール画像"
+    argument :name, String,
+      required: true,
+      description: '名前'
+
+    argument :profile, String,
+      required: false,
+      description: 'Base64エンコードされたプロフィール画像文字列'
   end
 end
