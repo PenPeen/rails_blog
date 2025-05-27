@@ -29,7 +29,7 @@ module Mutations
     field :post, Types::PostType, null: true
 
     def resolve(post_input:)
-      result = PostCreationService.new(
+      result = CreatePostService.new(
         user: context[:current_user],
         attributes: post_input.to_h.except(:thumbnail),
         thumbnail: post_input.thumbnail
