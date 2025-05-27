@@ -29,40 +29,15 @@ module Mutations
     field :user, Types::UserType, null: true
 
     def resolve(user_input:)
-      service = UserRegistrationService.new(**user_input.to_h)
+      service = CreateUserService.new(**user_input.to_h)
+      result = service.call
 
-      begin
-        user = service.call
-        {
-          user:,
-          token: user.token.uuid,
-          message: "確認メールを送信しました。",
-        }
-      rescue UserAlreadyRegisteredError => e
-        {
-          errors: [
-            {
-              message: "ユーザー登録に失敗しました。#{e.message}",
-              path: ["userInput", "email"]
-            }
-          ]
-        }
-      rescue ActiveRecord::RecordInvalid => e
-        user_errors = e.record.errors.map do |error|
-          {
-            message: error.full_message,
-            path: ["userInput", error.attribute.to_s]
-          }
-        end
-
-        { errors: user_errors }
-      rescue StandardError => e
-        {
-          errors: [
-            { message: "予期せぬエラーが発生しました。#{e.message}" }
-          ]
-        }
-      end
+      {
+        user: result.user,
+        token: result.token,
+        message: result.message,
+        errors: result.errors
+      }
     end
   end
 end
