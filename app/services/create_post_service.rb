@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PostCreationService
+class CreatePostService
   MAX_FILE_SIZE = 2.megabytes
 
   Result = Struct.new(:post, :message, :errors, keyword_init: true)

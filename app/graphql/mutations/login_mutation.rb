@@ -31,37 +31,16 @@ module Mutations
     field :user, Types::UserType, null: true
 
     def resolve(email:, password:)
-      user = User.find_by(email:)
+      result = LoginService.new(
+        email: email,
+        password: password
+      ).call
 
-      if user && user.authenticate(password)
-        if user.definitive?
-          user.create_session!
-          token = user.current_session.key
-
-          {
-            token:,
-            user:,
-          }
-        else
-          {
-            errors: [
-              {
-                message: "メールアドレスの認証が完了していません。\nメールをご確認ください。",
-                path: ["email"]
-              }
-            ]
-          }
-        end
-      else
-        {
-          errors: [
-            {
-              message: "メールアドレスまたはパスワードが正しくありません。",
-              path: ["email", "password"]
-            }
-          ]
-        }
-      end
+      {
+        token: result.token,
+        user: result.user,
+        errors: result.errors
+      }
     end
   end
 end

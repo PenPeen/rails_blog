@@ -111,7 +111,7 @@ RSpec.describe 'UpdatePost Mutation', type: :request do
       let(:thumbnail) { 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=' }
 
       before do
-        stub_const("PostUpdateService::MAX_FILE_SIZE", 1.byte)
+        stub_const("UpdatePostService::MAX_FILE_SIZE", 1.byte)
       end
 
       it 'ファイルサイズのエラーを返すこと' do
