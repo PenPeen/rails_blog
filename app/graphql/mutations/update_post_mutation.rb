@@ -22,11 +22,23 @@ mutation UpdatePost($input: UpdatePostMutationInput!) {
 
 module Mutations
   class UpdatePostMutation < LoginRequiredMutation
-    argument :post_input, Types::PostInputType, required: true
+    description '投稿更新'
 
-    field :errors, [Types::UserError], null: true
-    field :message, String, null: true
-    field :post, Types::PostType, null: true
+    argument :post_input, Types::PostInputType,
+      required: true,
+      description: '投稿情報'
+
+    field :errors, [Types::UserError],
+      null: true,
+      description: 'エラー情報'
+
+    field :message, String,
+      null: true,
+      description: 'メッセージ'
+
+    field :post, Types::PostType,
+      null: true,
+      description: '投稿情報'
 
     def resolve(post_input:)
       result = UpdatePostService.new(

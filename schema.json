@@ -39,7 +39,7 @@
             },
             {
               "name": "token",
-              "description": null,
+              "description": "トークン",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -77,7 +77,7 @@
             },
             {
               "name": "errors",
-              "description": null,
+              "description": "エラー情報",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -97,7 +97,7 @@
             },
             {
               "name": "success",
-              "description": null,
+              "description": "成功フラグ",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -109,7 +109,7 @@
             },
             {
               "name": "token",
-              "description": null,
+              "description": "トークン",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -216,7 +216,7 @@
             },
             {
               "name": "postInput",
-              "description": null,
+              "description": "入力値",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -254,7 +254,7 @@
             },
             {
               "name": "errors",
-              "description": null,
+              "description": "エラー情報",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -274,7 +274,7 @@
             },
             {
               "name": "message",
-              "description": null,
+              "description": "メッセージ",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -286,7 +286,7 @@
             },
             {
               "name": "post",
-              "description": null,
+              "description": "作成された投稿",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -309,7 +309,7 @@
           "fields": [
             {
               "name": "errors",
-              "description": null,
+              "description": "エラー情報",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -329,7 +329,7 @@
             },
             {
               "name": "message",
-              "description": null,
+              "description": "メッセージ",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -341,7 +341,7 @@
             },
             {
               "name": "token",
-              "description": null,
+              "description": "トークン",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -353,7 +353,7 @@
             },
             {
               "name": "user",
-              "description": null,
+              "description": "作成されたユーザー",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -389,7 +389,7 @@
             },
             {
               "name": "id",
-              "description": null,
+              "description": "投稿ID",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -427,7 +427,7 @@
             },
             {
               "name": "errors",
-              "description": null,
+              "description": "エラー情報",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -447,7 +447,7 @@
             },
             {
               "name": "message",
-              "description": null,
+              "description": "メッセージ",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -459,7 +459,7 @@
             },
             {
               "name": "post",
-              "description": null,
+              "description": "投稿情報",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -471,7 +471,7 @@
             },
             {
               "name": "success",
-              "description": null,
+              "description": "成功フラグ",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -524,7 +524,7 @@
           "fields": [
             {
               "name": "errors",
-              "description": null,
+              "description": "エラー情報",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -544,7 +544,7 @@
             },
             {
               "name": "token",
-              "description": null,
+              "description": "トークン",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -556,7 +556,7 @@
             },
             {
               "name": "user",
-              "description": null,
+              "description": "ユーザー情報",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -602,11 +602,11 @@
         {
           "kind": "OBJECT",
           "name": "Mutation",
-          "description": null,
+          "description": "MutationType",
           "fields": [
             {
               "name": "confirmRegistration",
-              "description": null,
+              "description": "ユーザー登録確認",
               "args": [
                 {
                   "name": "input",
@@ -635,7 +635,7 @@
             },
             {
               "name": "createPost",
-              "description": null,
+              "description": "投稿作成",
               "args": [
                 {
                   "name": "input",
@@ -664,11 +664,11 @@
             },
             {
               "name": "createUser",
-              "description": null,
+              "description": "ユーザー作成",
               "args": [
                 {
                   "name": "userInput",
-                  "description": null,
+                  "description": "ユーザー情報",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -693,7 +693,7 @@
             },
             {
               "name": "deletePost",
-              "description": null,
+              "description": "投稿削除",
               "args": [
                 {
                   "name": "input",
@@ -722,11 +722,11 @@
             },
             {
               "name": "login",
-              "description": null,
+              "description": "ログイン処理",
               "args": [
                 {
                   "name": "email",
-                  "description": null,
+                  "description": "メールアドレス",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -742,7 +742,7 @@
                 },
                 {
                   "name": "password",
-                  "description": null,
+                  "description": "パスワード",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -767,7 +767,7 @@
             },
             {
               "name": "logout",
-              "description": null,
+              "description": "ログアウト処理",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -779,7 +779,7 @@
             },
             {
               "name": "updatePost",
-              "description": null,
+              "description": "投稿更新",
               "args": [
                 {
                   "name": "input",
@@ -808,7 +808,7 @@
             },
             {
               "name": "updateUserProfile",
-              "description": null,
+              "description": "ユーザープロフィール更新",
               "args": [
                 {
                   "name": "input",
@@ -844,11 +844,11 @@
         {
           "kind": "OBJECT",
           "name": "Pagination",
-          "description": null,
+          "description": "ページネーション情報",
           "fields": [
             {
               "name": "currentPage",
-              "description": null,
+              "description": "現在のページ番号",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -860,7 +860,7 @@
             },
             {
               "name": "limitValue",
-              "description": null,
+              "description": "1ページあたりの表示件数",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -872,7 +872,7 @@
             },
             {
               "name": "totalCount",
-              "description": null,
+              "description": "総件数",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -884,7 +884,7 @@
             },
             {
               "name": "totalPages",
-              "description": null,
+              "description": "総ページ数",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -903,11 +903,11 @@
         {
           "kind": "OBJECT",
           "name": "Post",
-          "description": null,
+          "description": "投稿情報",
           "fields": [
             {
               "name": "content",
-              "description": null,
+              "description": "投稿内容",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -923,7 +923,7 @@
             },
             {
               "name": "createdAt",
-              "description": null,
+              "description": "作成日時",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -939,7 +939,7 @@
             },
             {
               "name": "id",
-              "description": null,
+              "description": "ID",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -955,19 +955,23 @@
             },
             {
               "name": "published",
-              "description": null,
+              "description": "公開状態",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
               "name": "thumbnailUrl",
-              "description": null,
+              "description": "サムネイルURL",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -979,7 +983,7 @@
             },
             {
               "name": "title",
-              "description": null,
+              "description": "タイトル",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -995,7 +999,7 @@
             },
             {
               "name": "updatedAt",
-              "description": null,
+              "description": "更新日時",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1011,7 +1015,7 @@
             },
             {
               "name": "user",
-              "description": null,
+              "description": "投稿者",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1121,11 +1125,11 @@
         {
           "kind": "OBJECT",
           "name": "Posts",
-          "description": null,
+          "description": "投稿一覧情報を返す",
           "fields": [
             {
               "name": "pagination",
-              "description": null,
+              "description": "ページネーション情報",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -1137,7 +1141,7 @@
             },
             {
               "name": "posts",
-              "description": null,
+              "description": "投稿一覧",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -1168,11 +1172,11 @@
           "fields": [
             {
               "name": "post",
-              "description": "Fetches a published post by ID",
+              "description": "公開中の投稿データ",
               "args": [
                 {
                   "name": "id",
-                  "description": null,
+                  "description": "投稿ID",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1197,11 +1201,11 @@
             },
             {
               "name": "posts",
-              "description": "Fetches a list of published posts with pagination",
+              "description": "公開中の投稿一覧",
               "args": [
                 {
                   "name": "page",
-                  "description": null,
+                  "description": "ページ番号",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -1213,7 +1217,7 @@
                 },
                 {
                   "name": "perPage",
-                  "description": null,
+                  "description": "1ページあたりの表示件数",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -1238,11 +1242,11 @@
             },
             {
               "name": "searchPosts",
-              "description": "Searches published posts by title",
+              "description": "公開中の投稿一覧（検索用）",
               "args": [
                 {
                   "name": "page",
-                  "description": null,
+                  "description": "ページ番号",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -1254,7 +1258,7 @@
                 },
                 {
                   "name": "perPage",
-                  "description": null,
+                  "description": "1ページあたりの表示件数",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -1266,7 +1270,7 @@
                 },
                 {
                   "name": "title",
-                  "description": null,
+                  "description": "検索文字列",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1302,11 +1306,11 @@
         {
           "kind": "OBJECT",
           "name": "Query",
-          "description": null,
+          "description": "QueryType",
           "fields": [
             {
               "name": "currentUser",
-              "description": "Fetches the current logged in user",
+              "description": "現在のユーザー情報",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -1318,11 +1322,11 @@
             },
             {
               "name": "myPost",
-              "description": "Fetches a post created by the current user",
+              "description": "自分の投稿",
               "args": [
                 {
                   "name": "id",
-                  "description": null,
+                  "description": "投稿ID",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -1347,11 +1351,11 @@
             },
             {
               "name": "myPosts",
-              "description": "Fetches a list of posts created by the current user",
+              "description": "自分の投稿一覧",
               "args": [
                 {
                   "name": "page",
-                  "description": null,
+                  "description": "ページ番号",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -1363,7 +1367,7 @@
                 },
                 {
                   "name": "perPage",
-                  "description": null,
+                  "description": "1ページあたりの表示件数",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
@@ -1388,7 +1392,7 @@
             },
             {
               "name": "published",
-              "description": "Access to published posts functionality",
+              "description": "公開済み投稿へのアクセス",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1438,7 +1442,7 @@
             },
             {
               "name": "postInput",
-              "description": null,
+              "description": "投稿情報",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1476,7 +1480,7 @@
             },
             {
               "name": "errors",
-              "description": null,
+              "description": "エラー情報",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -1496,7 +1500,7 @@
             },
             {
               "name": "message",
-              "description": null,
+              "description": "メッセージ",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -1508,7 +1512,7 @@
             },
             {
               "name": "post",
-              "description": null,
+              "description": "投稿情報",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -1544,7 +1548,7 @@
             },
             {
               "name": "userProfileInput",
-              "description": null,
+              "description": "ユーザープロフィール情報",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1582,7 +1586,7 @@
             },
             {
               "name": "errors",
-              "description": null,
+              "description": "エラー情報",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -1602,7 +1606,7 @@
             },
             {
               "name": "message",
-              "description": null,
+              "description": "メッセージ",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -1614,7 +1618,7 @@
             },
             {
               "name": "user",
-              "description": null,
+              "description": "更新されたユーザー",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -1633,11 +1637,11 @@
         {
           "kind": "OBJECT",
           "name": "User",
-          "description": null,
+          "description": "ユーザー情報",
           "fields": [
             {
               "name": "createdAt",
-              "description": null,
+              "description": "作成日時",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1653,7 +1657,7 @@
             },
             {
               "name": "email",
-              "description": null,
+              "description": "メールアドレス",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1669,7 +1673,7 @@
             },
             {
               "name": "id",
-              "description": null,
+              "description": "ID",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1685,7 +1689,7 @@
             },
             {
               "name": "name",
-              "description": null,
+              "description": "名前",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1701,7 +1705,7 @@
             },
             {
               "name": "posts",
-              "description": null,
+              "description": "ユーザーが投稿した投稿",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -1721,7 +1725,7 @@
             },
             {
               "name": "updatedAt",
-              "description": null,
+              "description": "更新日時",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1737,7 +1741,7 @@
             },
             {
               "name": "userImage",
-              "description": null,
+              "description": "ユーザーのプロフィール画像",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -1756,11 +1760,11 @@
         {
           "kind": "OBJECT",
           "name": "UserError",
-          "description": "Errors generated by user operations",
+          "description": "ユーザー操作によって生成されたエラー情報",
           "fields": [
             {
               "name": "message",
-              "description": "Error message",
+              "description": "エラーメッセージ",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1776,7 +1780,7 @@
             },
             {
               "name": "path",
-              "description": "Path to the location of the error",
+              "description": "エラーの発生場所",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -1803,11 +1807,11 @@
         {
           "kind": "OBJECT",
           "name": "UserImage",
-          "description": null,
+          "description": "ユーザープロフィール画像",
           "fields": [
             {
               "name": "profile",
-              "description": null,
+              "description": "URL",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -1831,7 +1835,7 @@
           "inputFields": [
             {
               "name": "email",
-              "description": null,
+              "description": "メールアドレス",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1847,7 +1851,7 @@
             },
             {
               "name": "name",
-              "description": null,
+              "description": "名前",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1863,7 +1867,7 @@
             },
             {
               "name": "password",
-              "description": null,
+              "description": "パスワード",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1890,7 +1894,7 @@
           "inputFields": [
             {
               "name": "name",
-              "description": null,
+              "description": "名前",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -1906,7 +1910,7 @@
             },
             {
               "name": "profile",
-              "description": "Base64エンコードされたプロフィール画像",
+              "description": "Base64エンコードされたプロフィール画像文字列",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",

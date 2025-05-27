@@ -2,6 +2,8 @@
 
 module Types
   class MutationType < Types::BaseObject
+    description 'MutationType'
+
     field :login, mutation: Mutations::LoginMutation
     field :logout, mutation: Mutations::LogoutMutation
 

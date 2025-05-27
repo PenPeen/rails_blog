@@ -18,7 +18,9 @@ module Resolvers
     type Types::PostType, null: true
     description "Fetches a published post by ID"
 
-    argument :id, ID, required: true
+    argument :id, ID,
+      required: true,
+      description: '投稿ID'
 
     def resolve(id:)
       Post.all_published_posts.find_by(id:)

@@ -2,14 +2,35 @@
 
 module Types
   class UserType < Types::BaseObject
-    field :created_at, GraphQL::Types::ISO8601DateTime, null: false
-    field :email, String, null: false
-    field :id, ID, null: false
-    field :name, String, null: false
-    field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    description 'ユーザー情報'
 
-    field :posts, [Types::PostType], null: true
-    field :user_image, Types::UserImageType, null: true
+    field :created_at, GraphQL::Types::ISO8601DateTime,
+      null: false,
+      description: '作成日時'
+
+    field :email, String,
+      null: false,
+      description: 'メールアドレス'
+
+    field :id, ID,
+      null: false,
+      description: 'ID'
+
+    field :name, String,
+      null: false,
+      description: '名前'
+
+    field :updated_at, GraphQL::Types::ISO8601DateTime,
+      null: false,
+      description: '更新日時'
+
+    field :posts, [Types::PostType],
+      null: true,
+      description: 'ユーザーが投稿した投稿'
+
+    field :user_image, Types::UserImageType,
+      null: true,
+      description: 'ユーザーのプロフィール画像'
 
     def posts
       Loaders::AssociationLoader.for(User, :posts).load(object)

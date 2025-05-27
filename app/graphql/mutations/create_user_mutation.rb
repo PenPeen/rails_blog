@@ -21,12 +21,25 @@ mutation CreateUser($userInput: UserInputType!) {
 
 module Mutations
   class CreateUserMutation < GraphQL::Schema::Mutation
-    argument :user_input, Types::UserInputType, required: true
+    description 'ユーザー作成'
 
-    field :errors, [Types::UserError], null: true
-    field :message, String, null: true
-    field :token, String, null: true
-    field :user, Types::UserType, null: true
+    argument :user_input, Types::UserInputType,
+      required: true,
+      description: 'ユーザー情報'
+
+    field :errors, [Types::UserError],
+      null: true,
+      description: 'エラー情報'
+
+    field :message, String, null: true,
+      description: 'メッセージ'
+
+    field :token, String, null: true,
+      description: 'トークン'
+
+    field :user, Types::UserType,
+      null: true,
+      description: '作成されたユーザー'
 
     def resolve(user_input:)
       service = CreateUserService.new(**user_input.to_h)

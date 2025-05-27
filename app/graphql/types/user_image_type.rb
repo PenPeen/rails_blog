@@ -2,7 +2,11 @@
 
 module Types
   class UserImageType < Types::BaseObject
-    field :profile, String, null: true
+    description 'ユーザープロフィール画像'
+
+    field :profile, String,
+      null: true,
+      description: 'URL'
 
     def profile
       Loaders::ActiveStorageLoader.for(UserImage, :profile).load(object.id).then do |profile|

@@ -12,6 +12,7 @@ mutation Logout{
 # NOTE: CookieのライフサイクルはFEのプロジェクトに移譲したため、現在は利用していない。
 module Mutations
   class LogoutMutation < GraphQL::Schema::Mutation
+    description 'ログアウト処理'
     field :success, Boolean, null: false
 
     def resolve

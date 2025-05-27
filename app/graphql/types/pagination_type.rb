@@ -2,9 +2,22 @@
 
 module Types
   class PaginationType < Types::BaseObject
-    field :current_page, Integer, null: true
-    field :limit_value, Integer, null: true
-    field :total_count, Integer, null: true # rubocop:disable GraphQL/ExtractType
-    field :total_pages, Integer, null: true # rubocop:disable GraphQL/ExtractType
+    description 'ページネーション情報'
+
+    field :current_page, Integer,
+      null: true,
+      description: '現在のページ番号'
+
+    field :limit_value, Integer,
+      null: true,
+      description: '1ページあたりの表示件数'
+
+    field :total_count, Integer,
+      null: true,
+      description: '総件数'
+
+    field :total_pages, Integer,
+      null: true,
+      description: '総ページ数'
   end
 end
