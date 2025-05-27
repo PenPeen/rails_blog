@@ -3,23 +3,61 @@
 class PostUpdateService
   MAX_FILE_SIZE = 2.megabytes
 
-  attr_reader :post, :attributes, :thumbnail
+  Result = Struct.new(:post, :message, :errors, keyword_init: true)
 
-  def initialize(post:, attributes:, thumbnail: nil)
-    @post = post
+  attr_reader :post, :post_id, :attributes, :thumbnail
+
+  def initialize(post_id:, attributes:, thumbnail: nil)
+    @post_id = post_id
     @attributes = attributes
     @thumbnail = thumbnail
   end
 
   def call
-    ActiveRecord::Base.transaction do
-      update_post
-      update_thumbnail if thumbnail.present?
-      post
+    begin
+      @post = find_post
+
+      ActiveRecord::Base.transaction do
+        update_post
+        update_thumbnail if thumbnail.present?
+      end
+
+      Result.new(
+        post:,
+        message: "更新が完了しました。",
+        errors: nil
+      )
+    rescue ActiveRecord::RecordInvalid => e
+      post_errors = e.record.errors.map do |error|
+        {
+          message: error.full_message,
+          path: ["postInput", error.attribute.to_s]
+        }
+      end
+
+      Result.new(errors: post_errors)
+    rescue ActiveRecord::RecordNotFound
+      Result.new(
+        errors: [
+          {
+            message: "投稿が見つかりません。",
+            path: ["postInput", "id"]
+          }
+        ]
+      )
+    rescue => e
+      Result.new(
+        errors: [
+          { message: "更新に失敗しました。#{e.message}" }
+        ]
+      )
     end
   end
 
   private
+    def find_post
+      Post.find(post_id)
+    end
 
     def update_post
       post.update!(attributes)
