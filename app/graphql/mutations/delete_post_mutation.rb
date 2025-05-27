@@ -29,29 +29,17 @@ module Mutations
     field :success, Boolean, null: true
 
     def resolve(id:)
-      post = find_post(id)
-      post.destroy!
+      result = DeletePostService.new(
+        user: context[:current_user],
+        post_id: id
+      ).call
 
       {
-        post:,
-        success: true,
-        message: "投稿を削除しました。",
-      }
-    rescue ActiveRecord::RecordNotFound
-      {
-        success: false,
-        message: "投稿が見つかりません。",
-      }
-    rescue => e
-      {
-        success: false,
-        message: "削除に失敗しました。しばらく経ってから再度実行してください。",
+        post: result.post,
+        success: result.success,
+        message: result.message,
+        errors: result.errors
       }
     end
-
-    private
-      def find_post(id)
-        @post ||= context[:current_user].posts.find(id)
-      end
   end
 end
