@@ -20,8 +20,8 @@ mutation UpdatePost($input: UpdatePostMutationInput!) {
 }
 =end
 
-module Mutations
-  class UpdatePostMutation < LoginRequiredMutation
+module Mutations::Post
+  class UpdatePostMutation < Mutations::LoginRequiredMutation
     description '投稿更新'
 
     argument :post_input, Types::PostInputType,

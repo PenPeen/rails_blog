@@ -19,8 +19,8 @@ mutation DeletePost($input: DeletePostInputType!) {
 }
 =end
 
-module Mutations
-  class DeletePostMutation < LoginRequiredMutation
+module Mutations::Post
+  class DeletePostMutation < Mutations::LoginRequiredMutation
     description '投稿削除'
 
     argument :id, ID,

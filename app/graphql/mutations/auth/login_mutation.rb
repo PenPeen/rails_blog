@@ -21,7 +21,7 @@ mutation Login($email: String!, $password: String!) {
 }
 =end
 
-module Mutations
+module Mutations::Auth
   class LoginMutation < GraphQL::Schema::Mutation
     description 'ログイン処理'
 

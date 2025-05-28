@@ -20,8 +20,8 @@ mutation CreatePost($input: CreatePostMutationInput!) {
 }
 =end
 
-module Mutations
-  class CreatePostMutation < LoginRequiredMutation
+module Mutations::Post
+  class CreatePostMutation < Mutations::LoginRequiredMutation
     description '投稿作成'
 
     argument :post_input, Types::CreatePostInputType,

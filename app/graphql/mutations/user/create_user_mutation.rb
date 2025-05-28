@@ -19,7 +19,7 @@ mutation CreateUser($userInput: UserInputType!) {
 }
 =end
 
-module Mutations
+module Mutations::User
   class CreateUserMutation < GraphQL::Schema::Mutation
     description 'ユーザー作成'
 
