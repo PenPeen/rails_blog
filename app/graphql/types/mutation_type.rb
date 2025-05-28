@@ -8,6 +8,8 @@ module Types
     field :login, mutation: Mutations::Auth::LoginMutation
     field :logout, mutation: Mutations::Auth::LogoutMutation
 
+    field :create_comment, mutation: Mutations::Comment::CreateCommentMutation
+
     field :create_post, mutation: Mutations::Post::CreatePostMutation
     field :delete_post, mutation: Mutations::Post::DeletePostMutation
     field :update_post, mutation: Mutations::Post::UpdatePostMutation
