@@ -10,7 +10,7 @@ mutation Logout{
 =end
 
 # NOTE: CookieのライフサイクルはFEのプロジェクトに移譲したため、現在は利用していない。
-module Mutations
+module Mutations::Auth
   class LogoutMutation < GraphQL::Schema::Mutation
     description 'ログアウト処理'
     field :success, Boolean, null: false

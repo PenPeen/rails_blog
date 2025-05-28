@@ -21,8 +21,8 @@ mutation UpdateUserProfile($input: UpdateUserProfileMutationInput!) {
 }
 =end
 
-module Mutations
-  class UpdateUserProfileMutation < LoginRequiredMutation
+module Mutations::User
+  class UpdateUserProfileMutation < Mutations::LoginRequiredMutation
     description 'ユーザープロフィール更新'
 
     argument :user_profile_input, Types::UserProfileInputType,

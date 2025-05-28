@@ -14,8 +14,8 @@ mutation ConfirmRegistration($token: String!) {
 }
 =end
 
-module Mutations
-  class ConfirmRegistrationMutation < BaseMutation
+module Mutations::Auth
+  class ConfirmRegistrationMutation < Mutations::BaseMutation
     description 'ユーザー登録確認'
 
     argument :token, String,
