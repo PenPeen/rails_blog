@@ -36,8 +36,16 @@ module Types
       null: false,
       description: '投稿者'
 
+    field :comments, [Types::CommentType],
+      null: false,
+      description: 'コメント一覧'
+
     def user
       Loaders::AssociationLoader.for(Post, :user).load(object)
+    end
+
+    def comments
+      Loaders::AssociationLoader.for(Post, :comments).load(object)
     end
 
     def thumbnail_url

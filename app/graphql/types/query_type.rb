@@ -24,6 +24,11 @@ module Types
       resolver: Resolvers::PublishedResolver,
       description: '公開済み投稿へのアクセス'
 
+    field :post_comments, Types::CommentsType,
+      null: false,
+      resolver: Resolvers::PostCommentsResolver,
+      description: '投稿のコメント一覧'
+
     field :node, resolver: Resolvers::NodeResolver,
       description: 'ノード'
 
