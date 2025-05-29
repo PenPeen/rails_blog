@@ -4,6 +4,7 @@ ja:
       user: ユーザー
       post: 投稿
       user_image: ユーザー画像
+      comment: コメント
     attributes:
       user:
         name: 名前
@@ -17,6 +18,8 @@ ja:
         thumbnail: サムネイル
       user_image:
         profile: プロフィール画像
+      comment:
+        content: コメント
     errors:
       models:
         user:
@@ -36,7 +39,11 @@ ja:
               blank: を入力してください
             content:
               blank: を入力してください
-
+        comment:
+          attributes:
+            content:
+              blank: を入力してください
+              too_long: は%{count}文字以内で入力してください
   activemodel:
     errors:
       messages:
