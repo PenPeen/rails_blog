@@ -27,7 +27,12 @@ module Types
     field :post_comments, Types::CommentsType,
       null: false,
       resolver: Resolvers::PostCommentsResolver,
-      description: '投稿のコメント一覧'
+      description: '投稿のコメント一覧（全件取得）'
+
+    field :post_comments_cursor, Types::CommentType.connection_type,
+      null: false,
+      resolver: Resolvers::PostCommentsCursorResolver,
+      description: '投稿のコメント一覧（カーソルページネーション）'
 
     field :node, resolver: Resolvers::NodeResolver,
       description: 'ノード'
