@@ -27,5 +27,13 @@ module Types
     field :user, Types::UserType,
       null: false,
       description: 'コメント投稿者'
+
+    def post
+      Loaders::AssociationLoader.for(Comment, :post).load(object)
+    end
+
+    def user
+      Loaders::AssociationLoader.for(Comment, :user).load(object)
+    end
   end
 end
