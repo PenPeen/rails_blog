@@ -17,7 +17,10 @@ gem 'graphql'
 gem 'graphql-batch'
 gem 'bcrypt', '~> 3.1.7'
 gem 'rack-cors'
-gem 'datadog', require: 'ddtrace'
+
+group :development, :production do
+  gem 'datadog', require: 'ddtrace'
+end
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
